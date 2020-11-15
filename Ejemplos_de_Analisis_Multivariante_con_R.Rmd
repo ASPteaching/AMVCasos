@@ -1,0 +1,324 @@
+---
+title: "Casos y Ejemplos de Análisis Multivariante con R"
+author: "Alex Sánchez y Francesc Carmona"
+output:
+    prettydoc::html_pretty:
+      theme: prettydoc
+      highlight: github
+      toc: true
+      toc_depth: 3
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Este documento contiene ejemplos de análisis multivariante con R.
+
+Los ejemplos estan pensados para ilustrar los capítulos del documento "Notas de Análisis Multivariante" pero se mantienen en un documento aparte para poder ser usados autónomamente.
+
+Algunos de los ejemplos se han inspirado en un documento no publicado del Dr. Carles Cuadras nuestro mentor en Análisis Multivariante por lo que desamos hacer agradecimiento explícito.
+
+
+# Análisis de componentes principales
+
+## Ejemplo PCA-1: Búsqueda de factores latentes en datos ecológicos.
+
+- Un estudio ecológico recogió datos de 49 gorriones hembras que fueron recogidos casi moribundos después de un temporal. 
+- Los investigadores midieron 5 magnitudes de los animales ("length","wing","head","humerus","sternum") y anotaron si los animales sobrevivían o no a los pocos días de ser recogidos ("survival").
+- Entre otros objetivos, el estudio perseguía encontrar *factores*, es decir algunas variables latentes, no medibles pero presentes en los datos, que explicaran la supervivencia de los mismos ante tempestades como la registrada.
+- Como veremos, las dos primeras componentes principales resultan ser estos factores.
+```{r}
+load("datos/gorriones.RData")
+colnames(gorriones) <-c("length","wing","head","humerus","sternum","survival")
+gorrionesNum<-as.matrix(gorriones[,1:5])
+```
+
+Empezamos con una exploración de los datos. Aunque existen muchos paquetes que permiten hacerla nos restringiremos a las funciones de R Base (o de tidyverse) para facilitar la reproducibilidad.
+
+```{r}
+str(gorriones)
+summary(gorriones)
+```
+```{r}
+f<- function(x){
+  ifelse (is.numeric(x), 
+          hist(x, breaks=5),
+          barplot(table(x))
+  )
+}
+par(mfrow=c(3,2))
+apply(gorriones,2,f)
+par(mfrow=c(1,1))
+```
+
+La escala de las variables numéricas es heterogénea, pero los datos son del mismo tipo (magnitudes biométricas) por lo que nos basaremos en la matriz de covarianzas de los datos *centrados*.
+
+```{r}
+gorrionesNum <- scale(gorrionesNum, center = TRUE, scale=FALSE)
+apply(gorrionesNum,2, mean)
+```
+
+Calculamos la matriz de varianzas ajustando a dividir por n en vez de por (n-1) para que los resultados sean comparables en los dos casos que haremos.
+
+```{r}
+n<- dim(gorriones)[1]
+S<-cov(gorrionesNum)*(n-1)/n
+show(S)
+```
+Calculamos la matriz de correlaciones.
+
+```{r}
+R<-cor(gorrionesNum)
+show(R)
+```
+
+A modo de ilustración empezamos calculando las componentes principales con funciones básicas:
+
+### Mediante diagonalización de la matriz de covarianzas
+
+```{r}
+EIG <- eigen(S)
+show(EIG)
+```
+Los vectores propios, es decir las columnas de la matriz "eigen$vectors" son las coordenadas de las cinco componentes principales.
+
+La transformación de los datos asociada a las componentes principales se obtiene multiplicando la matriz original por la matriz de vectores propios
+
+```{r}
+eigenVecs1 <- EIG$vectors
+PCAS1 <- gorrionesNum %*% eigenVecs1
+head(PCAS1)
+```
+
+Con esto podemos hacer una primera representación.
+
+```{r}
+plot(PCAS1[,1], PCAS1[,2], main = "Gorriones. 2 primeras PCs")
+```
+
+Los valores propios representan la varianza de las componentes por lo que cada vaor dividio por la suma de éstos es el porcentaje de variabilidad explicado.
+
+```{r}
+vars1<- EIG$values/sum(EIG$values)
+round(vars1,3)
+```
+
+Podemos usar estos porcentajes para etiquetar los ejes indicando la importancia de cada componente.
+
+```{r}
+xlabel <- paste("PCA1 ", round(vars1[1]*100, 2),"%" )
+ylabel <- paste("PCA2 ", round(vars1[2]*100,2),"%" )
+plot(PCAS1[,1], PCAS1[,2], main = "Gorriones. 2 primeras PCs",
+     xlab=xlabel, ylab=ylabel)
+
+```
+
+Finalmente podemos visualizar si el gorrión ha sobrevivido o no representandolo en el gráfico con colores distintos.
+
+```{r}
+bgSurv<- colSurv <- ifelse(gorriones$survival=="N", "red", "blue")
+pchSurv <- ifelse(gorriones$survival=="N",1,2)
+plot(PCAS1[,1], PCAS1[,2], main = "Gorriones. 2 primeras PCs",
+     xlab=xlabel, ylab=ylabel, 
+     pch=pchSurv, col=colSurv, bg=bgSurv)
+legend( "topright"  , inset = c(0.01,0.01), cex =1, 
+        bty = "y", legend = c("N", "S"), 
+        text.col = c("red", "blue"),
+        col = c("red", "blue"), 
+        pt.bg = c("red","blue"), 
+        pch = c(1,2)
+        )
+```
+
+### Calculo de las componentes principales mediante las funcionesn `princomp` y `prcomp`
+
+La función `princomp` calcula las componentes principales recurriendo básicamente al mismo método, a diferencia de la función `prcomp` que calcula las componentes principales mediante la descomposición en valores singulares de la matriz de datos.
+
+```{r}
+PCAS2 <- princomp(gorrionesNum)
+names(PCAS2)
+PCAS3 <- prcomp(gorrionesNum)
+names(PCAS3)
+```
+
+Observemos como algunos resultados coinciden mientras que otros tendremos que ajustarlos.
+
+EL argumento `sdev` contiene las desviaciones estandar es decir las raíces cuadradas de los valores propios.
+
+```{r}
+PCAS2$sdev
+PCAS3$sdev
+sqrt(EIG$values)
+```
+
+Hay una ligera diferencia en los resultados calculados por  `prcomp` que podemos atribuir a la forma de cálculo.
+
+El argumento `loadings` contiene los vectores propios en el objeto calculado por `princomp. 
+
+En el caso de `prcomp` estan en el objeto `rotation`.
+
+```{r}
+PCAS2$loadings
+PCAS3$rotation[,1]
+EIG$vectors
+```
+
+Observamos como en este caso coinciden todos los valores, salvo por el signo del primer valor propio del cálculo basado en la diagonalización. Esto no es un error sino que se debe a que el vector propio no es único y está indeterminado por un producto por -1.
+
+Finalmente el argumento `scores` contiene las componentes principales calculadas por `princomp`. en el caso de `prcomp` se encuentran en el campo `x`. Para hacerlas comparables centraremos las componentes que hemos calculado nosotros.
+
+```{r}
+head(PCAS2$scores)
+head(PCAS3$x)
+head(PCAS1)
+```
+
+De nuevo los valores coinciden aunque los dos métodos `prcomp` y `princomp` han centrado las componentes principales antes de almacenarlas.
+
+### Interpretación de las componentes
+
+A partir de los resultados obtenidos podemos escribir así las dos primeras componentes:
+
+$Y_1 = 0.5365\times length + 0.8290\times wing +  0.0965\times head + 0.0743\times humerus + 0.1003\times sternum$
+
+$Y_2 = -0.8281\times length + 0.5505\times wing -0.0336\times head + 0.0146\times humerus -0.0992\times sternum$
+
+La primera componente tiene todos los coeficientes positivos del mismo signo y se puede interpretar como el **tamaño** del gorrión. 
+
+El peso principal de las variables originales se da en las dos primeras. 
+El mayor peso se da a la extensión de las alas, con un coeficiente de 0.83. Le sigue la longitud del pájaro con un coeficiente de 0.54. Las demás variables presentan una contribución notablemente menor a la PC1. Esta primera componente explica un 82% de la variabilidad.
+
+La segunda componente tiene coeficientes positivos y negativos y se puede interpretar como un factor **forma**. En este caso por contraposición de las dos primeras variables. En el eje PC2 las variables con mayor peso en valor absoluto son las mismas pero aquí una aparece con signo positivo y la otra con signo negativo: 0.55 para las alas, −0.83 para la longitud. Esta segunda componente explica un 11.2% de la variabilidad.
+
+Valores positivos de PC2 corresponderán a pájaros cortos con gran envergadura de alas, y valores negativos de PC2 corresponderán a pájaros más proporcionados o incluso de mayor longitud que envergadura.
+
+Tamaño y forma son pues dos componentes interrelacionadas que, entre ambas explican el 97.51% de la variabilidad. Si atendemos a la distribución de los "S" y "N" en el gráfico podríamos sugerir que los gorriones "extremos" ya sea en tamaño o en forma tienen menos posibilidades de sobrevivir.
+
+
+## Ejemplo PCA-2: Detección del efecto batch en datos de microarrays.
+
+Muchos datos de alto rendimiento como los microarrays o los de prote\'omica presentan un tipo particular de complicaci\'on t\'ecnica que se conoce como efecto \emph{batch}. Dicho efecto consiste en que muestras producidas en el mismo ``lote'' (mismo día, misma tanda de hibridación, mismo operario, ...) se parecen más entre ellas que muestras producidas en lotes distintos pudiendo llegar a causar confusi\'on en estudios comparativos en los que el efecto batch enmascare el efecto de los tratamientos en estudio.
+
+Si la presencia del efecto batch se conoce o espera \emph{a priori} puede, en principio, ser controlado o cancelado mediante un adecuado diseño experimental, en el que el lote se tratará usualmente como un bloque. En este caso un adecuado balanceo entre bloques y tratamientos puede cancelar el efecto batch. Alternativamente, dicho efecto puede incluirse como un  factor en el modelo de análisis de la varianza, lo que eliminara del análisis la variación atribuible al lote.
+
+En muchas (demasiadas) ocasiones el efecto batch no ha sido considerado de antemano, o incluso, cuando sí lo ha sido, puede que no se hayan tenido en cuenta todos los posible efectos (a lo mejor se ha tenido en cuenta el día pero no que los reactivos utilizados provenían de dos lotes o que las piezas se han procesado en grupos, o ...). 
+
+En prevención de los problemas que esto puede generar es conveniente realizar algún tipo de análisis exploratorio que permita detectar la posible presencia de estos efectos. En caso de detectarse efectos indeseados puede plantearse su eliminación mediante alguna de las técnicas disponibles para ello.
+
+### Los datos para el análisis
+
+Los datos para este ejemplo consisten en datos de microarrays de expresión génica, tipo hgu95-a utilizados para analizar un estudio de cancer de mama en el que se analiza el efecto de distintos tratamientos y distintos tiempos de exposición a éstos, sobre la expresión de los genes. 
+
+Los datos y la información del estudio se hallan disponibles en la base de datos Gene Expression Omnibus (GEO, 
+[http://www.ncbi.nlm.nih.gov/geo](http://www.ncbi.nlm.nih.gov/geo) con número de acceso  ``GSE848''. 
+
+Para este ejemplo hemos utilizado un subconjunto de estos datos basado en 18 muestras, que hemos guardado en un objeto binario `datosMicroarrays.Rda` con el fin de simplificar el proceso y centrar la atención en el análisis.
+
+```{r}
+load(file.path("datos", "datosMicroarrays.Rda"))
+head(x)
+rownames(targets) <- targets$ShortName
+```
+
+La tabla `targets`contiene información sobre el tratamiento y el lote de cada muestra analizada. los individuos analizados. 
+
+```{r}
+kableExtra::kable(targets)
+```
+Obsérvese que los nombres de las columnas de los datos coinciden con los de las filas de `targets`
+
+```{r}
+rownames(targets)==colnames(x)
+```
+
+### Análisis del efecto batch
+
+La detección de efectos batch puede hacerse de diversas formas pero esencialmente, de lo que se trata es de ver si las muestras se agrupan por causas distintas a las que se podría esperar, por ejemplo si en vez de parecerse más entre si muestras que han recibido un mismo tratamient, lo hacen las que han recibido algun tratamiento el mismo día.
+
+La detección de estos efectos puede hacerse mediante distintas técnicas de las que, la más popular es el análisis de componentes principales. Una vez detectado si existe efecto batch es posible mirar de eliminarlo. Si cada tratamiento en estudio está presente en cada lote suele ser posible separar ambos efectos. Si, no es así no suele ser posible evitar cierto grado de \emph{confusión} tratamiento--lote.
+
+En este ejercicio nos centraremos únicamente en la detección del efecto, no en su eliminación.
+
+Cabe destacar una diferencia entre esta aplicación del PCA y la anterior. 
+
+- En el caso de los gorriones hemos utilizado el PCA para buscar y explicar variables latentes que nos ayuden a interpretar los datos.
+- En este caso no pretendemos detectar variables asociadas al efecto batch, es decir no buscaremos interpretarlos sinio tan sólo ponerlo en evidencia. 
+
+Esto no es porque no sea importante saber que causa, sino porque muchas veces puede tener origenes desconocidos y sobretodo és plausible que no hayamos recogido información de las variables que lo explican. Esto ha llevado al desarrollo de métodos multivariantes, como el análisis de variables surrogadas del paquete SVA [https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3307112/](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3307112/) orientadas a modelizar y quitar el efecto batch globalmente sin buscar su interpretación.
+
+
+### Detectando el efecto batch
+
+La detección de efectos batch puede hacerse de diversas formas pero esencialmente, de lo que se trata es de ver *si las muestras se agrupan por causas distintas a las que se podría esperar*, por ejemplo si en vez de parecerse más entre si muestras que han recibido un mismo tratamiento, lo hacen las que han recibido cualquier tratamiento el mismo día.
+
+La detección de estos efectos puede hacerse mediante distintas técnicas de las que, la más popular es el análisis de componentes principales. 
+
+Una vez detectado si existe efecto batch es posible mirar de eliminarlo. Si cada tratamiento en estudio está presente en cada lote suele ser posible separar ambos efectos usando el análisis de la varianza. Si, no es así no suele ser posible evitar cierto grado de \emph{confusión} tratamiento-lote.
+
+```{r}
+colores <- c(rep("black", 4), rep("blue", 4), rep("red", 4), rep("green", 4))
+```
+
+Un diagrama de cajas de todos los datos no muestra ninguna tendencia clara que separe los lotes A y B
+
+```{r}
+sampleNames <- targets$ShortName
+boxplot(as.data.frame(x), cex.axis=0.6, col=colores, las=2, names=sampleNames, 
+        main="Signal distribution for selected chips")
+```
+
+Para simplificar la visualización, la función siguiente combina la realización de un PCA, la extracción de las dos primeras componentes y su visualización, debidamente etiquetada, por tratamientos y por lotes.
+
+```{r}
+plotPCA <- function ( X, labels=NULL, colors=NULL, dataDesc="", scale=FALSE, cex4text=0.8)
+{
+  pcX<-prcomp(X, scale=scale) # o prcomp(t(X))
+  loads<- round(pcX$sdev^2/sum(pcX$sdev^2)*100,1)
+  xlab<-c(paste("PC1",loads[1],"%"))
+  ylab<-c(paste("PC2",loads[2],"%"))
+  if (is.null(colors)) colors=1
+  plot(pcX$x[,1:2],xlab=xlab,ylab=ylab, col=colors,  
+       xlim=c(min(pcX$x[,1])-10, max(pcX$x[,1])+10),
+       ylim=c(min(pcX$x[,2])-10, max(pcX$x[,2])+10))
+  text(pcX$x[,1],pcX$x[,2], labels, pos=3, cex=cex4text)
+  title(paste("Plot of first 2 PCs for expressions in", dataDesc, sep=" "), cex=0.8)
+}
+```
+
+Con esta función podemos realizar y visualizar de forma sencilla el PCA de los datos. Obsérvese que realizamos el PCA de los datos traspuestos puesto que los datos de microarrays se presentan traspuestos a la forma habitual, es decir las filas son las variables y las columnas los individuos.
+```
+
+```{r}
+sampleNames <- targets$ShortName
+plotPCA(t(x), labels=sampleNames, colors=colores, dataDesc="selected samples", cex4text=0.6)
+```
+
+Las dos primeras componentes explican muy poca variabilidad, pero es imediato ver que
+
+- La primera componente se asocia bien al factor "time" (valor 8 en general a la derechay valor 48 a la izquierda)
+- La segunda componente parece asociada al factor "Batch", las muestras del Batch A, arriba y las del batch "B" abajo.
+
+Esto sugiere que el efcto "Batch" puede enmascarar los efectos de los tratamientos por lo qyue será recomendable eliminarlo para poder estudiar bien el efecto Tratamiento.
+
+En este caso esto será posible, al menos en parte, porque el diseño se encuentra balanceado entre Tratamiento, Tiempo y Batch, por lo que un modelo de Análisis de la Varianza nos permitirá descomponer la variabilidad asociada a cada causa y eliminar la debida al efecto batch.
+
+#### Análisis basado en distancias 
+
+Un enfoque alternativo aunque relacionado es realizar un análisis basado en distancias. 
+Podemos hacerlo calculando la matriz de distancias y visualizándola mediante un mapa de colores o usando escalamiento multidimensional que se discute más adelante.
+
+```{r}
+manDist <- dist(t(x))
+heatmap (as.matrix(manDist), col=heat.colors(16))
+```
+```{r}
+require(MASS)
+sam1<-sammon (manDist, trace=FALSE)
+plot(sam1$points)
+text(sam1$points, targets$Batch, pos=4)
+```
+ 
+Todas las visualizaciones coinciden en mostrar una separación asociada al factor batch A o B.
