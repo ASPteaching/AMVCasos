@@ -1,6 +1,7 @@
 ---
 title: "Casos y Ejemplos de Análisis Multivariante con R"
 author: "Alex Sánchez y Francesc Carmona"
+date: "https://github.com/ASPteaching/AMVCasos"
 output:
     prettydoc::html_pretty:
       theme: prettydoc
@@ -21,9 +22,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Este documento contiene ejemplos de análisis multivariante con R.
 
-Los ejemplos estan pensados para ilustrar los capítulos del documento "Notas de Análisis Multivariante" pero se mantienen en un documento aparte para poder ser usados autónomamente.
+Los ejemplos están pensados para ilustrar los capítulos del documento "Notas de Análisis Multivariante" pero se mantienen en un documento aparte para poder ser usados autónomamente.
 
-Algunos de los ejemplos se han inspirado en un documento no publicado del Dr. Carles Cuadras nuestro mentor en Análisis Multivariante por lo que desamos hacer agradecimiento explícito.
+Algunos de los ejemplos se han inspirado en un documento no publicado del Dr. Carles Cuadras nuestro mentor en Análisis Multivariante por lo que deseamos hacer agradecimiento explícito.
 
 # Análisis de componentes principales
 
@@ -105,7 +106,7 @@ Con esto podemos hacer una primera representación.
 plot(PCAS1[,1], PCAS1[,2], main = "Gorriones. 2 primeras PCs")
 ```
 
-Los valores propios representan la varianza de las componentes por lo que cada vaor dividio por la suma de éstos es el porcentaje de variabilidad explicado.
+Los valores propios representan la varianza de las componentes por lo que cada valor dividido por la suma de éstos es el porcentaje de variabilidad explicado.
 
 ```{r}
 vars1<- EIG$values/sum(EIG$values)
@@ -122,7 +123,7 @@ plot(PCAS1[,1], PCAS1[,2], main = "Gorriones. 2 primeras PCs",
 
 ```
 
-Finalmente podemos visualizar si el gorrión ha sobrevivido o no representandolo en el gráfico con colores distintos.
+Finalmente podemos visualizar si el gorrión ha sobrevivido o no representándolo en el gráfico con colores distintos.
 
 ```{r}
 bgSurv<- colSurv <- ifelse(gorriones$survival=="N", "red", "blue")
@@ -152,7 +153,7 @@ names(PCAS3)
 
 Observemos como algunos resultados coinciden mientras que otros tendremos que ajustarlos.
 
-EL argumento `sdev` contiene las desviaciones estandar es decir las raíces cuadradas de los valores propios.
+EL argumento `sdev` contiene las desviaciones estándard es decir las raíces cuadradas de los valores propios.
 
 ```{r}
 PCAS2$sdev
@@ -216,7 +217,7 @@ En prevención de los problemas que esto puede generar es conveniente realizar a
 
 ### Los datos para el análisis
 
-Los datos para este ejemplo consisten en datos de microarrays de expresión génica, tipo hgu95-a utilizados para analizar un estudio de cancer de mama en el que se analiza el efecto de distintos tratamientos y distintos tiempos de exposición a éstos, sobre la expresión de los genes. 
+Los datos para este ejemplo consisten en datos de microarrays de expresión génica, tipo hgu95-a utilizados para analizar un estudio de cáncer de mama en el que se analiza el efecto de distintos tratamientos y distintos tiempos de exposición a éstos, sobre la expresión de los genes. 
 
 Los datos y la información del estudio se hallan disponibles en la base de datos Gene Expression Omnibus (GEO, 
 [http://www.ncbi.nlm.nih.gov/geo](http://www.ncbi.nlm.nih.gov/geo) con número de acceso  ``GSE848''. 
@@ -242,7 +243,7 @@ rownames(targets)==colnames(x)
 
 ### Análisis del efecto batch
 
-La detección de efectos batch puede hacerse de diversas formas pero esencialmente, de lo que se trata es de ver si las muestras se agrupan por causas distintas a las que se podría esperar, por ejemplo si en vez de parecerse más entre si muestras que han recibido un mismo tratamient, lo hacen las que han recibido algun tratamiento el mismo día.
+La detección de efectos batch puede hacerse de diversas formas pero esencialmente, de lo que se trata es de ver si las muestras se agrupan por causas distintas a las que se podría esperar, por ejemplo si en vez de parecerse más entre si muestras que han recibido un mismo tratamiento, lo hacen las que han recibido algún tratamiento el mismo día.
 
 La detección de estos efectos puede hacerse mediante distintas técnicas de las que, la más popular es el análisis de componentes principales. Una vez detectado si existe efecto batch es posible mirar de eliminarlo. Si cada tratamiento en estudio está presente en cada lote suele ser posible separar ambos efectos. Si, no es así no suele ser posible evitar cierto grado de \emph{confusión} tratamiento--lote.
 
@@ -251,9 +252,9 @@ En este ejercicio nos centraremos únicamente en la detección del efecto, no en
 Cabe destacar una diferencia entre esta aplicación del PCA y la anterior. 
 
 - En el caso de los gorriones hemos utilizado el PCA para buscar y explicar variables latentes que nos ayuden a interpretar los datos.
-- En este caso no pretendemos detectar variables asociadas al efecto batch, es decir no buscaremos interpretarlos sinio tan sólo ponerlo en evidencia. 
+- En este caso no pretendemos detectar variables asociadas al efecto batch, es decir no buscaremos interpretarlos sino tan sólo ponerlo en evidencia. 
 
-Esto no es porque no sea importante saber que causa, sino porque muchas veces puede tener origenes desconocidos y sobretodo és plausible que no hayamos recogido información de las variables que lo explican. Esto ha llevado al desarrollo de métodos multivariantes, como el análisis de variables surrogadas del paquete SVA [https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3307112/](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3307112/) orientadas a modelizar y quitar el efecto batch globalmente sin buscar su interpretación.
+Esto no es porque no sea importante saber que causa, sino porque muchas veces puede tener orígenes desconocidos y sobretodo es plausible que no hayamos recogido información de las variables que lo explican. Esto ha llevado al desarrollo de métodos multivariantes, como el análisis de variables subrogadas del paquete SVA [https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3307112/](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3307112/) orientadas a modelizar y quitar el efecto batch globalmente sin buscar su interpretación.
 
 
 ### Detectando el efecto batch
