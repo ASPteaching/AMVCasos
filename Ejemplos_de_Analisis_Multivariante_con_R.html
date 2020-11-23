@@ -44,6 +44,201 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 </script>
+<script>$(document).ready(function(){
+    if (typeof $('[data-toggle="tooltip"]').tooltip === 'function') {
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+    if ($('[data-toggle="popover"]').popover === 'function') {
+        $('[data-toggle="popover"]').popover();
+    }
+});
+</script>
+<style type="text/css">
+.lightable-minimal {
+border-collapse: separate;
+border-spacing: 16px 1px;
+width: 100%;
+margin-bottom: 10px;
+}
+.lightable-minimal td {
+margin-left: 5px;
+margin-right: 5px;
+}
+.lightable-minimal th {
+margin-left: 5px;
+margin-right: 5px;
+}
+.lightable-minimal thead tr:last-child th {
+border-bottom: 2px solid #00000050;
+empty-cells: hide;
+}
+.lightable-minimal tbody tr:first-child td {
+padding-top: 0.5em;
+}
+.lightable-minimal.lightable-hover tbody tr:hover {
+background-color: #f5f5f5;
+}
+.lightable-minimal.lightable-striped tbody tr:nth-child(even) {
+background-color: #f5f5f5;
+}
+.lightable-classic {
+border-top: 0.16em solid #111111;
+width: 100%;
+margin-bottom: 10px;
+margin: 10px 5px;
+}
+.lightable-classic caption {
+color: #222222;
+}
+.lightable-classic td {
+padding-left: 5px;
+padding-right: 5px;
+color: #222222;
+}
+.lightable-classic th {
+padding-left: 5px;
+padding-right: 5px;
+font-weight: normal;
+color: #222222;
+}
+.lightable-classic thead tr:last-child th {
+border-bottom: 0.10em solid #111111;
+}
+.lightable-classic tbody tr:last-child td {
+border-bottom: 0.14em solid #111111;
+}
+.lightable-classic.lightable-hover tbody tr:hover {
+background-color: #F9EEC1;
+}
+.lightable-classic.lightable-striped tbody tr:nth-child(even) {
+background-color: #f5f5f5;
+}
+.lightable-classic-2 {
+border-top: 3px double #111111;
+width: 100%;
+margin-bottom: 10px;
+}
+.lightable-classic-2 caption {
+color: #222222;
+}
+.lightable-classic-2 td {
+padding-left: 5px;
+padding-right: 5px;
+color: #222222;
+}
+.lightable-classic-2 th {
+padding-left: 5px;
+padding-right: 5px;
+font-weight: normal;
+color: #222222;
+}
+.lightable-classic-2 tbody tr:last-child td {
+border-bottom: 3px double #111111;
+}
+.lightable-classic-2 thead tr:last-child th {
+border-bottom: 1px solid #111111;
+}
+.lightable-classic-2.lightable-hover tbody tr:hover {
+background-color: #F9EEC1;
+}
+.lightable-classic-2.lightable-striped tbody tr:nth-child(even) {
+background-color: #f5f5f5;
+}
+.lightable-material {
+min-width: 100%;
+white-space: nowrap;
+table-layout: fixed;
+font-family: Roboto, sans-serif;
+border: 1px solid #EEE;
+border-collapse: collapse;
+margin-bottom: 10px;
+}
+.lightable-material th {
+height: 56px;
+padding-left: 16px;
+padding-right: 16px;
+}
+.lightable-material td {
+height: 52px;
+padding-left: 16px;
+padding-right: 16px;
+border-top: 1px solid #eeeeee;
+}
+.lightable-material.lightable-hover tbody tr:hover {
+background-color: #f5f5f5;
+}
+.lightable-material.lightable-striped tbody tr:nth-child(even) {
+background-color: #f5f5f5;
+}
+.lightable-material.lightable-striped tbody td {
+border: 0;
+}
+.lightable-material.lightable-striped thead tr:last-child th {
+border-bottom: 1px solid #ddd;
+}
+.lightable-material-dark {
+min-width: 100%;
+white-space: nowrap;
+table-layout: fixed;
+font-family: Roboto, sans-serif;
+border: 1px solid #FFFFFF12;
+border-collapse: collapse;
+margin-bottom: 10px;
+background-color: #363640;
+}
+.lightable-material-dark th {
+height: 56px;
+padding-left: 16px;
+padding-right: 16px;
+color: #FFFFFF60;
+}
+.lightable-material-dark td {
+height: 52px;
+padding-left: 16px;
+padding-right: 16px;
+color: #FFFFFF;
+border-top: 1px solid #FFFFFF12;
+}
+.lightable-material-dark.lightable-hover tbody tr:hover {
+background-color: #FFFFFF12;
+}
+.lightable-material-dark.lightable-striped tbody tr:nth-child(even) {
+background-color: #FFFFFF12;
+}
+.lightable-material-dark.lightable-striped tbody td {
+border: 0;
+}
+.lightable-material-dark.lightable-striped thead tr:last-child th {
+border-bottom: 1px solid #FFFFFF12;
+}
+.lightable-paper {
+width: 100%;
+margin-bottom: 10px;
+color: #444;
+}
+.lightable-paper thead tr:last-child th {
+color: #666;
+vertical-align: bottom;
+border-bottom: 1px solid #00000020;
+line-height: 1.15em;
+padding: 10px 5px;
+}
+.lightable-paper td {
+vertical-align: middle;
+border-bottom: 1px solid #00000010;
+line-height: 1.15em;
+padding: 7px 5px;
+}
+.lightable-paper.lightable-hover tbody tr:hover {
+background-color: #F9EEC1;
+}
+.lightable-paper.lightable-striped tbody tr:nth-child(even) {
+background-color: #00000008;
+}
+.lightable-paper.lightable-striped tbody td {
+border: 0;
+}
+</style>
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -172,9 +367,10 @@ code span.ot { color: #007020; }
 <div id="TOC" class="toc">
 <div class="toc-box">
 <ul>
+<li><a href="#presentación">Presentación</a></li>
 <li><a href="#análisis-de-componentes-principales">Análisis de componentes principales</a>
 <ul>
-<li><a href="#ejemplo-pca-1-búsqueda-de-factores-latentes-en-datos-ecológicos.">Ejemplo PCA-1: Búsqueda de factores latentes en datos ecológicos.</a>
+<li><a href="#ejemplo-pca-1-búsqueda-de-factores-latentes-en-datos-ecológicos1">Ejemplo PCA-1: Búsqueda de factores latentes en datos ecológicos</a>
 <ul>
 <li><a href="#mediante-diagonalización-de-la-matriz-de-covarianzas">Mediante diagonalización de la matriz de covarianzas</a></li>
 <li><a href="#calculo-de-las-componentes-principales-mediante-las-funcionesn-princomp-y-prcomp">Calculo de las componentes principales mediante las funcionesn <code>princomp</code> y <code>prcomp</code></a></li>
@@ -185,26 +381,32 @@ code span.ot { color: #007020; }
 <li><a href="#los-datos-para-el-análisis">Los datos para el análisis</a></li>
 <li><a href="#análisis-del-efecto-batch">Análisis del efecto batch</a></li>
 <li><a href="#detectando-el-efecto-batch">Detectando el efecto batch</a></li>
+<li><a href="#análisis-basado-en-distancias">Análisis basado en distancias</a></li>
 </ul></li>
 </ul></li>
+<li><a href="#análisis-de-proximidades">Análisis de proximidades</a>
+<ul>
+<li><a href="#breve-repaso-sobre-medidas-de-similaridad">Breve repaso sobre medidas de similaridad</a></li>
+<li><a href="#ejemplo-1-distancias-geográficas2">Ejemplo 1: Distancias geográficas</a></li>
+<li><a href="#ejemplo-2-similaridades-entre-partidos-políticos3">Ejemplo 2: Similaridades entre partidos políticos</a></li>
+</ul></li>
+<li><a href="#referencias">Referencias</a></li>
 </ul>
 </div>
 </div>
 
 <section class="main-content">
+<div id="presentación" class="section level1">
+<h1>Presentación</h1>
 <p>Este documento contiene ejemplos de análisis multivariante con R.</p>
 <p>Los ejemplos estan pensados para ilustrar los capítulos del documento “Notas de Análisis Multivariante” pero se mantienen en un documento aparte para poder ser usados autónomamente.</p>
 <p>Algunos de los ejemplos se han inspirado en un documento no publicado del Dr. Carles Cuadras nuestro mentor en Análisis Multivariante por lo que desamos hacer agradecimiento explícito.</p>
+</div>
 <div id="análisis-de-componentes-principales" class="section level1">
 <h1>Análisis de componentes principales</h1>
-<div id="ejemplo-pca-1-búsqueda-de-factores-latentes-en-datos-ecológicos." class="section level2">
-<h2>Ejemplo PCA-1: Búsqueda de factores latentes en datos ecológicos.</h2>
-<ul>
-<li>Un estudio ecológico recogió datos de 49 gorriones hembras que fueron recogidos casi moribundos después de un temporal.</li>
-<li>Los investigadores midieron 5 magnitudes de los animales (“length”,“wing”,“head”,“humerus”,“sternum”) y anotaron si los animales sobrevivían o no a los pocos días de ser recogidos (“survival”).</li>
-<li>Entre otros objetivos, el estudio perseguía encontrar <em>factores</em>, es decir algunas variables latentes, no medibles pero presentes en los datos, que explicaran la supervivencia de los mismos ante tempestades como la registrada.</li>
-<li>Como veremos, las dos primeras componentes principales resultan ser estos factores.</li>
-</ul>
+<div id="ejemplo-pca-1-búsqueda-de-factores-latentes-en-datos-ecológicos1" class="section level2">
+<h2>Ejemplo PCA-1: Búsqueda de factores latentes en datos ecológicos<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></h2>
+<p>Un estudio ecológico recogió datos de 49 gorriones hembras que fueron recogidos casi moribundos después de un temporal. Los investigadores midieron 5 magnitudes de los animales (“length”,“wing”,“head”,“humerus”,“sternum”) y anotaron si los animales sobrevivían o no a los pocos días de ser recogidos (“survival”). Entre otros objetivos, el estudio perseguía encontrar <em>factores</em>, es decir algunas variables latentes, no medibles pero presentes en los datos, que explicaran la supervivencia de los mismos ante tempestades como la registrada. Como veremos, las dos primeras componentes principales resultan ser estos factores.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">load</span>(<span class="st">&quot;datos/gorriones.RData&quot;</span>)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="kw">colnames</span>(gorriones) &lt;-<span class="kw">c</span>(<span class="st">&quot;length&quot;</span>,<span class="st">&quot;wing&quot;</span>,<span class="st">&quot;head&quot;</span>,<span class="st">&quot;humerus&quot;</span>,<span class="st">&quot;sternum&quot;</span>,<span class="st">&quot;survival&quot;</span>)</span>
 <span id="cb1-3"><a href="#cb1-3"></a>gorrionesNum&lt;-<span class="kw">as.matrix</span>(gorriones[,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>])</span></code></pre></div>
@@ -847,8 +1049,9 @@ plotPCA(t(x), labels=sampleNames, colors=colores, dataDesc=&quot;selected sample
 </ul>
 <p>Esto sugiere que el efcto “Batch” puede enmascarar los efectos de los tratamientos por lo qyue será recomendable eliminarlo para poder estudiar bien el efecto Tratamiento.</p>
 <p>En este caso esto será posible, al menos en parte, porque el diseño se encuentra balanceado entre Tratamiento, Tiempo y Batch, por lo que un modelo de Análisis de la Varianza nos permitirá descomponer la variabilidad asociada a cada causa y eliminar la debida al efecto batch.</p>
-<div id="análisis-basado-en-distancias" class="section level4">
-<h4>Análisis basado en distancias</h4>
+</div>
+<div id="análisis-basado-en-distancias" class="section level3">
+<h3>Análisis basado en distancias</h3>
 <p>Un enfoque alternativo aunque relacionado es realizar un análisis basado en distancias. Podemos hacerlo calculando la matriz de distancias y visualizándola mediante un mapa de colores o usando escalamiento multidimensional que se discute más adelante.</p>
 <div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1"></a>manDist &lt;-<span class="st"> </span><span class="kw">dist</span>(<span class="kw">t</span>(x))</span>
 <span id="cb56-2"><a href="#cb56-2"></a><span class="kw">heatmap</span> (<span class="kw">as.matrix</span>(manDist), <span class="dt">col=</span><span class="kw">heat.colors</span>(<span class="dv">16</span>))</span></code></pre></div>
@@ -863,6 +1066,793 @@ plotPCA(t(x), labels=sampleNames, colors=colores, dataDesc=&quot;selected sample
 </div>
 </div>
 </div>
+<div id="análisis-de-proximidades" class="section level1">
+<h1>Análisis de proximidades</h1>
+<div id="breve-repaso-sobre-medidas-de-similaridad" class="section level2">
+<h2>Breve repaso sobre medidas de similaridad</h2>
+<p>Supongamos que tenemos <span class="math inline">\(n\)</span> variables <em>dicotómicas</em>, basadas en ausencia (-) o presencia (+) de caracteres cualitativos. Un individuo queda entonces caracterizado por la presencia o la ausencias de los caracteres, y dos individuos seran tano más similares cuanto más parecido sea su perfil de presencias-ausencias.</p>
+<table>
+<tbody>
+<tr class="odd">
+<td></td>
+<td><span class="math inline">\(x_1\)</span></td>
+<td><span class="math inline">\(x_2\)</span></td>
+<td><span class="math inline">\(x_3\)</span></td>
+<td><span class="math inline">\(\cdots\)</span></td>
+<td><span class="math inline">\(x_n\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(i\)</span></td>
+<td><span class="math inline">\(+\)</span></td>
+<td><span class="math inline">\(-\)</span></td>
+<td><span class="math inline">\(+\)</span></td>
+<td><span class="math inline">\(\cdots\)</span></td>
+<td><span class="math inline">\(+\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Podemos determinar a asociación entre dos individuos <span class="math inline">\(i\)</span>, <span class="math inline">\(j\)</span> a partir de la tabla de frecuencias</p>
+<table>
+<tbody>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+<td><span class="math inline">\(i\)</span></td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td><span class="math inline">\(+\)</span></td>
+<td></td>
+<td><span class="math inline">\(-\)</span></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><span class="math inline">\(+\)</span></td>
+<td><span class="math inline">\(a\)</span></td>
+<td></td>
+<td><span class="math inline">\(b\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(j\)</span></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><span class="math inline">\(-\)</span></td>
+<td><span class="math inline">\(c\)</span></td>
+<td></td>
+<td><span class="math inline">\(d\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>donde: <span class="math inline">\(n = a + b + c + d\)</span>, que contiene:</p>
+<ul>
+<li>el número de caracteres <em>comunes</em> a <span class="math inline">\(i\)</span> y a <span class="math inline">\(j\)</span>, <span class="math inline">\(a\)</span>,</li>
+<li>el número de caracteres <em>presentes en <span class="math inline">\(i\)</span> pero no en <span class="math inline">\(j\)</span></em>, <span class="math inline">\(b\)</span>,</li>
+<li>el número de caracteres <em>presentes en <span class="math inline">\(j\)</span> pero no en <span class="math inline">\(i\)</span></em>, <span class="math inline">\(c\)</span>,</li>
+<li>el número de caracteres <em>no comunes</em> a <span class="math inline">\(i\)</span> y a <span class="math inline">\(j\)</span>, <span class="math inline">\(d\)</span>,</li>
+</ul>
+<p>La asociación se mide mediante un <em>coeficiente de similaridad</em> <span class="math inline">\(s_{ij}\)</span> que verifica, en general:</p>
+<ul>
+<li><span class="math inline">\(0 \leq s_{ij} \leq 1\)</span>,</li>
+<li><span class="math inline">\(s_{ij} = 0\)</span> si <span class="math inline">\(c+b = n\)</span> <strong>(discrepancia total)</strong></li>
+<li><span class="math inline">\(s_{ij} = 1\)</span> si <span class="math inline">\(a+d = n\)</span> <strong>(concordancia total)</strong></li>
+</ul>
+<p>La similaridad <span class="math inline">\(s_{ij}\)</span> da el grado de semejanza entre <span class="math inline">\(i\)</span>, <span class="math inline">\(j\)</span> en relación a los <span class="math inline">\(n\)</span> caracteres. Ejemplos de coeficientes de similaridad son</p>
+</div>
+<div id="ejemplo-1-distancias-geográficas2" class="section level2">
+<h2>Ejemplo 1: Distancias geográficas<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></h2>
+<p>En muchas ocasiones se dispone de datos en forma de una matriz de <em>distancias</em>, de <em>similaridades</em> o de <em>disimilariddes</em>. En algún sentido, que puede variar de un caso a otro, estas matrices cuantifican el parecido, o la diferencia, o incluso la distancia geográfica por parejas de un grupo de variables. Nuestro objetivo, en estos casos, suele ser intentar recuperar, a partrir de las maytrices anteriores, las coordenadas de los puntos, de forma que podamos visualizarlos mostrando las relaciones entre ellos.</p>
+<p>Este ejemplo utiliza las distancias <em>aéreas</em>, en millas, entre 10 ciudades de Estados Unidos. A partir de éstas deseamos recuperar las coordenadas de cada dciudad de forma que podamos representarlas en un plano que refleje lo mejor posible las distancias entre ellas. Hemos de tener en cuenta que puesto que se trata de duistancias aéreas, no son distancias euclídeas (los aviones no se desplazan en línea recta) por lo que la recuperación tan ssólo será aproximada.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1"></a><span class="kw">library</span>(readxl)</span>
+<span id="cb60-2"><a href="#cb60-2"></a>DistSim &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">read_excel</span>(<span class="st">&quot;datos/Dist_Sim_Disim.xlsx&quot;</span>, <span class="dt">sheet =</span> <span class="st">&quot;GeoDistances&quot;</span>))</span>
+<span id="cb60-3"><a href="#cb60-3"></a><span class="kw">rownames</span>(DistSim) &lt;-<span class="st"> </span>DistSim[,<span class="dv">1</span>]</span>
+<span id="cb60-4"><a href="#cb60-4"></a>DistSim &lt;-<span class="kw">as.matrix</span>(DistSim [,<span class="op">-</span><span class="dv">1</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1"></a><span class="kw">library</span>(magrittr)</span>
+<span id="cb61-2"><a href="#cb61-2"></a>DistSim <span class="op">%&gt;%</span></span>
+<span id="cb61-3"><a href="#cb61-3"></a><span class="st">  </span>kableExtra<span class="op">::</span><span class="kw">kbl</span>() <span class="op">%&gt;%</span></span>
+<span id="cb61-4"><a href="#cb61-4"></a><span class="st">  </span>kableExtra<span class="op">::</span><span class="kw">kable_paper</span>(<span class="st">&quot;hover&quot;</span>, <span class="dt">full_width =</span> F, <span class="dt">font_size =</span> <span class="dv">9</span>)</span></code></pre></div>
+<table class=" lightable-paper lightable-hover" style="font-size: 9px; font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+Atl
+</th>
+<th style="text-align:right;">
+Chi
+</th>
+<th style="text-align:right;">
+Den
+</th>
+<th style="text-align:right;">
+Hou
+</th>
+<th style="text-align:right;">
+LA
+</th>
+<th style="text-align:right;">
+Mia
+</th>
+<th style="text-align:right;">
+NY
+</th>
+<th style="text-align:right;">
+SF
+</th>
+<th style="text-align:right;">
+Sea
+</th>
+<th style="text-align:right;">
+Was
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Atlanta
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Chicago
+</td>
+<td style="text-align:right;">
+587
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Denver
+</td>
+<td style="text-align:right;">
+1212
+</td>
+<td style="text-align:right;">
+920
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Houston
+</td>
+<td style="text-align:right;">
+701
+</td>
+<td style="text-align:right;">
+940
+</td>
+<td style="text-align:right;">
+879
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Los Angeles
+</td>
+<td style="text-align:right;">
+1936
+</td>
+<td style="text-align:right;">
+1745
+</td>
+<td style="text-align:right;">
+831
+</td>
+<td style="text-align:right;">
+1734
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Miami
+</td>
+<td style="text-align:right;">
+604
+</td>
+<td style="text-align:right;">
+1188
+</td>
+<td style="text-align:right;">
+1726
+</td>
+<td style="text-align:right;">
+968
+</td>
+<td style="text-align:right;">
+2339
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+New York
+</td>
+<td style="text-align:right;">
+748
+</td>
+<td style="text-align:right;">
+713
+</td>
+<td style="text-align:right;">
+1631
+</td>
+<td style="text-align:right;">
+1420
+</td>
+<td style="text-align:right;">
+2451
+</td>
+<td style="text-align:right;">
+1092
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+San Francisco
+</td>
+<td style="text-align:right;">
+2139
+</td>
+<td style="text-align:right;">
+1858
+</td>
+<td style="text-align:right;">
+949
+</td>
+<td style="text-align:right;">
+1645
+</td>
+<td style="text-align:right;">
+347
+</td>
+<td style="text-align:right;">
+2594
+</td>
+<td style="text-align:right;">
+2571
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Seattle
+</td>
+<td style="text-align:right;">
+2182
+</td>
+<td style="text-align:right;">
+1737
+</td>
+<td style="text-align:right;">
+1021
+</td>
+<td style="text-align:right;">
+1891
+</td>
+<td style="text-align:right;">
+959
+</td>
+<td style="text-align:right;">
+2734
+</td>
+<td style="text-align:right;">
+2408
+</td>
+<td style="text-align:right;">
+678
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Washington
+</td>
+<td style="text-align:right;">
+543
+</td>
+<td style="text-align:right;">
+597
+</td>
+<td style="text-align:right;">
+1494
+</td>
+<td style="text-align:right;">
+1220
+</td>
+<td style="text-align:right;">
+2300
+</td>
+<td style="text-align:right;">
+923
+</td>
+<td style="text-align:right;">
+205
+</td>
+<td style="text-align:right;">
+2442
+</td>
+<td style="text-align:right;">
+2329
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+</tbody>
+</table>
+<p>Nuestro objetivo es lograr una visualización de los datos que represente lo mejor posible las distancias entre éstas, aunque no conozcamos, como en este caso, las coordenadas de cada ciudad. Además, puesto que se trata de distancias aéreas, no será posible recuperar directamente las distancias euclídeas entre las ciudades, por lo que procederemos a realizar un escalamiento multidimensional clásico</p>
+<p>Siguiendo a <span class="citation">Everitt and Hothorn (2011)</span>, capítulo 4, procederemos a:</p>
+<ul>
+<li>Diagonalizar la matriz de distancias.</li>
+<li>Obtener las coordenadas de cada individuo (ciudad).</li>
+</ul>
+<p><span class="math display">\[
+X = V_1\cdot \Lambda_1^{\frac 12} ,
+\]</span> donde <span class="math inline">\(V_1\)</span> contiene los vectores propios no nulos de <span class="math inline">\(B\)</span> y <span class="math display">\[
+\Lambda_1^{\frac 12}= \mbox{diag}(\lambda_1^{\frac 12}, \lambda_2^{\frac 12},..., \lambda_q^{\frac 12}),
+\]</span> contiene la raíz cuadrada de los primeros <span class="math inline">\(q\)</span> valores propios no nulos de <span class="math inline">\(B\)</span>.</p>
+<p>Para realizar un multidimensonal scaling clásico nos basaremos en la instrucción <code>cmdscale</code> del paquete <code>stats</code>:</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1"></a>airdist &lt;-<span class="st"> </span><span class="kw">as.dist</span>(<span class="kw">as.matrix</span>(DistSim))</span>
+<span id="cb62-2"><a href="#cb62-2"></a>airline_mds &lt;-<span class="st"> </span><span class="kw">cmdscale</span>(airdist, <span class="dt">k =</span> <span class="dv">9</span>, <span class="dt">eig =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<pre><code>## Warning in cmdscale(airdist, k = 9, eig = TRUE): only 5 of the first 9
+## eigenvalues are &gt; 0</code></pre>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1"></a>airline_mds<span class="op">$</span>points</span></code></pre></div>
+<pre><code>##                     [,1]       [,2]        [,3]        [,4]         [,5]
+## Atlanta        -712.4178  157.34246   67.519636  33.9648977  -8.45853360
+## Chicago        -374.1124 -332.99012    2.928936  28.7749927 -15.84330898
+## Denver          486.6607   14.78013  -41.304984  45.9929928  14.75126177
+## Houston        -228.9426  515.95616 -465.504161  -0.5668829   0.04794259
+## Los Angeles    1219.0246  277.99731  458.396262  -0.1879388   0.02297080
+## Miami         -1128.4262  598.95103  142.601024 -32.8128340   1.93168561
+## New York      -1062.3316 -534.19580   39.122338 -35.6808373   0.22573428
+## San Francisco  1423.4269  181.43505 -110.535264 -24.0833935  -4.86588885
+## Seattle        1347.8203 -536.47617 -140.929698 -18.5126346   0.87459912
+## Washington     -970.7018 -342.80004   47.705911   3.1116379  11.31353725</code></pre>
+<p>Si inspeccionamos los valores propios veremos que algunos son negativos:</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1"></a>lam &lt;-<span class="st"> </span>airline_mds<span class="op">$</span>eig</span>
+<span id="cb66-2"><a href="#cb66-2"></a><span class="kw">show</span>(lam)</span></code></pre></div>
+<pre><code>##  [1]  9.609694e+06  1.561695e+06  4.893155e+05  7.379541e+03  6.963801e+02
+##  [6] -7.566996e-10 -4.056578e+02 -9.605809e+02 -2.371259e+04 -2.945694e+05</code></pre>
+<p>Esto se explica porque, tal como se ha comentado, las distancias no son euclídeas. Para determinar si podemos prescindir de algunas componentes calculamos, como hacíamos en el análisis de componentes principales, el porcentaje de la suma de los valores propios (en valor absoluto o al cuadrado) que representa cada valor propio individual.</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1"></a><span class="kw">cumsum</span>(<span class="kw">abs</span>(lam)) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(<span class="kw">abs</span>(lam))</span></code></pre></div>
+<pre><code>##  [1] 0.8015807 0.9318476 0.9726633 0.9732788 0.9733369 0.9733369 0.9733708
+##  [8] 0.9734509 0.9754289 1.0000000</code></pre>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1"></a><span class="kw">cumsum</span>(lam<span class="op">^</span><span class="dv">2</span>) <span class="op">/</span><span class="st"> </span><span class="kw">sum</span>(lam<span class="op">^</span><span class="dv">2</span>)</span></code></pre></div>
+<pre><code>##  [1] 0.9709215 0.9965638 0.9990812 0.9990818 0.9990818 0.9990818 0.9990818
+##  [8] 0.9990818 0.9990877 1.0000000</code></pre>
+<p>El elevado valor del primer término en ambos casos, muestra como, bastará con las dos primeras coordenadas para obtener una buena representación.</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1"></a>lim &lt;-<span class="st"> </span><span class="kw">range</span>(airline_mds<span class="op">$</span>points[,<span class="dv">1</span>] <span class="op">*</span><span class="st"> </span>(<span class="op">-</span><span class="dv">1</span>)) <span class="op">*</span><span class="st"> </span><span class="fl">1.2</span></span>
+<span id="cb72-2"><a href="#cb72-2"></a><span class="kw">plot</span>(airline_mds<span class="op">$</span>points[,<span class="dv">1</span>] <span class="op">*</span><span class="st"> </span>(<span class="op">-</span><span class="dv">1</span>), airline_mds<span class="op">$</span>points[,<span class="dv">2</span>] <span class="op">*</span><span class="st"> </span>(<span class="op">-</span><span class="dv">1</span>),</span>
+<span id="cb72-3"><a href="#cb72-3"></a>     <span class="dt">type =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Coordinate 1&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Coordinate 2&quot;</span>,</span>
+<span id="cb72-4"><a href="#cb72-4"></a>     <span class="dt">xlim =</span> lim, <span class="dt">ylim =</span> lim)</span>
+<span id="cb72-5"><a href="#cb72-5"></a><span class="kw">text</span>(airline_mds<span class="op">$</span>points[,<span class="dv">1</span>] <span class="op">*</span>(<span class="op">-</span><span class="dv">1</span>), airline_mds<span class="op">$</span>points[,<span class="dv">2</span>] <span class="op">*</span><span class="st"> </span>(<span class="op">-</span><span class="dv">1</span>), </span>
+<span id="cb72-6"><a href="#cb72-6"></a>     <span class="kw">labels</span>(airdist), <span class="dt">cex =</span> <span class="fl">0.7</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>Como puede verse en el gráfico la primera coordenada representa la dirección Este Oeste, y la seguna la Norte-Sur. Las posiciones de los puntos reproducen relativamente bien las posiciones relativas de las ciudades en el mapa.</p>
+</div>
+<div id="ejemplo-2-similaridades-entre-partidos-políticos3" class="section level2">
+<h2>Ejemplo 2: Similaridades entre partidos políticos<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></h2>
+<p>La tabla siguiente contiene una medida del grado de similaridad entre partidos políticos españoles en la primera década del siglo XXI. La similaridad se ha calculado a partir de 11 características sociológicas y económicas (sobre constitución del estado, poder judicial y ejecutivo, financiación autonómica, etc.). Sobre éstas se ha aplicado la similaridad de Jaccard al cuadrado</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1"></a>simPartidos &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">read_excel</span>(<span class="st">&quot;datos/Dist_Sim_Disim.xlsx&quot;</span>, <span class="dt">sheet =</span> <span class="st">&quot;SimilarJaccard-Partidos&quot;</span>))</span>
+<span id="cb73-2"><a href="#cb73-2"></a><span class="kw">rownames</span>(simPartidos) &lt;-<span class="st"> </span>simPartidos[,<span class="dv">1</span>]</span>
+<span id="cb73-3"><a href="#cb73-3"></a>simPartidos &lt;-<span class="kw">as.matrix</span>(simPartidos [,<span class="op">-</span><span class="dv">1</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1"></a><span class="kw">library</span>(magrittr)</span>
+<span id="cb74-2"><a href="#cb74-2"></a>simPartidos <span class="op">%&gt;%</span></span>
+<span id="cb74-3"><a href="#cb74-3"></a><span class="st">  </span>kableExtra<span class="op">::</span><span class="kw">kbl</span>() <span class="op">%&gt;%</span></span>
+<span id="cb74-4"><a href="#cb74-4"></a><span class="st">  </span>kableExtra<span class="op">::</span><span class="kw">kable_paper</span>(<span class="st">&quot;hover&quot;</span>, <span class="dt">full_width =</span> F, <span class="dt">font_size =</span> <span class="dv">9</span>)</span></code></pre></div>
+<table class=" lightable-paper lightable-hover" style="font-size: 9px; font-family: &quot;Arial Narrow&quot;, arial, helvetica, sans-serif; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+PP
+</th>
+<th style="text-align:right;">
+PSOE
+</th>
+<th style="text-align:right;">
+CU
+</th>
+<th style="text-align:right;">
+IU
+</th>
+<th style="text-align:right;">
+ERC
+</th>
+<th style="text-align:right;">
+ICV
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+PP
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PSOE
+</td>
+<td style="text-align:right;">
+1.400
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CU
+</td>
+<td style="text-align:right;">
+1.714
+</td>
+<td style="text-align:right;">
+2.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+IU
+</td>
+<td style="text-align:right;">
+1.273
+</td>
+<td style="text-align:right;">
+0.444
+</td>
+<td style="text-align:right;">
+1.800
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ERC
+</td>
+<td style="text-align:right;">
+2.000
+</td>
+<td style="text-align:right;">
+1.250
+</td>
+<td style="text-align:right;">
+1.600
+</td>
+<td style="text-align:right;">
+1.111
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ICV
+</td>
+<td style="text-align:right;">
+1.818
+</td>
+<td style="text-align:right;">
+1.111
+</td>
+<td style="text-align:right;">
+1.714
+</td>
+<td style="text-align:right;">
+0.667
+</td>
+<td style="text-align:right;">
+0.667
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+</tbody>
+</table>
+<p>Para trabajar con los datos los convertimos en una matriz simétrica:</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1"></a>makeSymm &lt;-<span class="st"> </span><span class="cf">function</span>(m) {</span>
+<span id="cb75-2"><a href="#cb75-2"></a>   m[<span class="kw">upper.tri</span>(m)] &lt;-<span class="st"> </span><span class="kw">t</span>(m)[<span class="kw">upper.tri</span>(m)]</span>
+<span id="cb75-3"><a href="#cb75-3"></a>   <span class="kw">return</span>(m)</span>
+<span id="cb75-4"><a href="#cb75-4"></a>}</span>
+<span id="cb75-5"><a href="#cb75-5"></a>distPartidos &lt;-<span class="st"> </span><span class="kw">makeSymm</span>(<span class="kw">as.matrix</span>(simPartidos))</span>
+<span id="cb75-6"><a href="#cb75-6"></a><span class="kw">show</span>(distPartidos)</span></code></pre></div>
+<pre><code>##         PP  PSOE    CU    IU   ERC   ICV
+## PP   0.000 1.400 1.714 1.273 2.000 1.818
+## PSOE 1.400 0.000 2.000 0.444 1.250 1.111
+## CU   1.714 2.000 0.000 1.800 1.600 1.714
+## IU   1.273 0.444 1.800 0.000 1.111 0.667
+## ERC  2.000 1.250 1.600 1.111 0.000 0.667
+## ICV  1.818 1.111 1.714 0.667 0.667 0.000</code></pre>
+<p>En este caso tenemos una matriz de distancias <span class="math inline">\(\Delta=\delta_{ij}\)</span>. Siguiendo a <span class="citation">Cuadras (2019)</span>, cap 8, podemos transformarla en una matriz de similaridad mediante la transformación: <span class="math inline">\(S_{ij} = -\frac 12 \delta_{ij}^2\)</span>.</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1"></a>simPartidos &lt;-<span class="st">  </span>S&lt;-<span class="st"> </span><span class="fl">-0.5</span> <span class="op">*</span>distPartidos</span></code></pre></div>
+<p>Una vez tenemos la matriz de similaridades <span class="math inline">\(S\)</span> la transformaremos en <span class="math display">\[
+S^*=s_{ij}^* = s_{ij} - \overline{s}_{i}- 
+ \overline{s}_{j} +  \overline{s},
+\]</span></p>
+<p>Esto puede hacerse multiplicando por la izquierda y poir la derecha por la matriz <span class="math inline">\(H\)</span>, es decir: <span class="math display">\[
+S*= HSH, \mbox{ donde $H$ es la matriz de centrado de datos: } H = I_n- 1_n 1_n&#39;.
+\]</span></p>
+<p>Aquí:</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1"></a>n =<span class="st"> </span><span class="kw">nrow</span>(S)</span>
+<span id="cb78-2"><a href="#cb78-2"></a>ones =<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>, n)</span>
+<span id="cb78-3"><a href="#cb78-3"></a>H =<span class="st"> </span><span class="kw">diag</span>(n) <span class="op">-</span><span class="st"> </span>(<span class="dv">1</span><span class="op">/</span>n) <span class="op">*</span><span class="st"> </span>(ones <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(ones))</span>
+<span id="cb78-4"><a href="#cb78-4"></a>Sprime1 &lt;-<span class="st"> </span>H <span class="op">%*%</span><span class="st"> </span>S </span>
+<span id="cb78-5"><a href="#cb78-5"></a>Sprime &lt;-<span class="st"> </span>Sprime1 <span class="op">%*%</span><span class="st"> </span>H</span></code></pre></div>
+<p>A continuación diagonalizamos esta matriz:</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1"></a>diagS &lt;-<span class="st"> </span><span class="kw">eigen</span>(Sprime)</span>
+<span id="cb79-2"><a href="#cb79-2"></a>diagS</span></code></pre></div>
+<pre><code>## eigen() decomposition
+## $values
+## [1] 1.272211e+00 1.122880e+00 5.198830e-01 3.642334e-01 1.489596e-01
+## [6] 1.554312e-15
+## 
+## $vectors
+##            [,1]       [,2]       [,3]        [,4]         [,5]       [,6]
+## [1,]  0.4716114 -0.5709237  0.5305741 -0.03758486  0.045174070 -0.4082483
+## [2,] -0.2713463 -0.3554746 -0.5219773 -0.38458580  0.461493025 -0.4082483
+## [3,]  0.6693854  0.4654397 -0.4027922  0.07985754  0.001916061 -0.4082483
+## [4,] -0.2682520 -0.2465235 -0.2559949  0.32458983 -0.727810701 -0.4082483
+## [5,] -0.2614706  0.4537676  0.3837563 -0.59891639 -0.230416406 -0.4082483
+## [6,] -0.3399280  0.2537145  0.2664340  0.61663969  0.449643951 -0.4082483</code></pre>
+<p>Las coordenadas principales seran:</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1"></a>U &lt;-<span class="st"> </span>diagS<span class="op">$</span>vectors</span>
+<span id="cb81-2"><a href="#cb81-2"></a>Dhalf &lt;-<span class="st"> </span><span class="kw">sqrt</span>(diagS<span class="op">$</span>values)</span>
+<span id="cb81-3"><a href="#cb81-3"></a>coords&lt;-<span class="st"> </span>U <span class="op">%*%</span><span class="st"> </span><span class="kw">diag</span>(Dhalf)[,<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>]</span></code></pre></div>
+<p>Y la representación gráfica de los partidos según las dos primeras CP es:</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1"></a>xlim &lt;-<span class="st"> </span><span class="kw">range</span>(coords[,<span class="dv">1</span>] <span class="op">*</span><span class="st"> </span>(<span class="op">-</span><span class="dv">1</span>)) <span class="op">*</span><span class="st"> </span><span class="fl">1.2</span></span>
+<span id="cb82-2"><a href="#cb82-2"></a>ylim &lt;-<span class="st"> </span><span class="kw">range</span>(coords[,<span class="dv">2</span>] <span class="op">*</span><span class="st"> </span>(<span class="op">-</span><span class="dv">1</span>)) <span class="op">*</span><span class="st"> </span><span class="fl">1.2</span></span>
+<span id="cb82-3"><a href="#cb82-3"></a><span class="kw">plot</span>(coords[,<span class="dv">1</span>] <span class="op">*</span><span class="st"> </span>(<span class="op">-</span><span class="dv">1</span>), coords[,<span class="dv">2</span>] <span class="op">*</span><span class="st"> </span>(<span class="op">-</span><span class="dv">1</span>),</span>
+<span id="cb82-4"><a href="#cb82-4"></a>     <span class="dt">type =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Coordinate 1&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Coordinate 2&quot;</span>,</span>
+<span id="cb82-5"><a href="#cb82-5"></a>     <span class="dt">xlim =</span> xlim, <span class="dt">ylim =</span> ylim)</span>
+<span id="cb82-6"><a href="#cb82-6"></a><span class="kw">text</span>(coords[,<span class="dv">1</span>] <span class="op">*</span><span class="st"> </span>(<span class="op">-</span><span class="dv">1</span>), coords[,<span class="dv">2</span>] <span class="op">*</span><span class="st"> </span>(<span class="op">-</span><span class="dv">1</span>), </span>
+<span id="cb82-7"><a href="#cb82-7"></a>     <span class="kw">rownames</span>(simPartidos), <span class="dt">cex =</span> <span class="fl">0.7</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>Como puede verse surge una interpretación bastante natural, en tanto que el primer eje representa si el partido es (pretendidamente) de izquierdas o de derecha, ientrtas que el segundo eje alinea partidos nacionalistas en la parte superior y partidos de ámbito más estatal en la inferior. Como era de esperar, en el centro no hay nadie.</p>
+</div>
+</div>
+<div id="referencias" class="section level1 unnumbered">
+<h1 class="unnumbered">Referencias</h1>
+<div id="refs" class="references hanging-indent">
+<div id="ref-Cuadras2019">
+<p>Cuadras, C. M. 2019. “Nuevos Métodos de Análisis Multivariante.” <em>Editorial Universitat de Barcelona</em>.</p>
+</div>
+<div id="ref-Everitt2011">
+<p>Everitt, Brian, and Torsten Hothorn. 2011. <em>An Introduction to Applied Multivariate Analysis with R</em>. New York: Springer. <a href="http://dx.doi.org/10.1007/978-1-4419-9650-3">http://dx.doi.org/10.1007/978-1-4419-9650-3</a>.</p>
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>El ejemplo de los gorriones se ha tomado del documento <em>Exemples d’Anàlisi Multivariant</em> del Dr. Carles Cuadras disponible en su página web.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>El ejemplo de la visualización de distancias entre ciudades se ha tomado del libro de <span class="citation">Everitt and Hothorn (2011)</span> <em>An introduction to aplied multivariate analysis using R</em> y del repositorio de github en donde se encuentra el código R de dicho libro: <a href="https://rdrr.io/cran/MVA/">https://rdrr.io/cran/MVA/</a><a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>El ejemplo de la relación entre partidos políticos se ha tomado del documento <span class="citation">(<span class="citeproc-not-found" data-reference-id="Cuadras2007"><strong>???</strong></span>)</span>, <em>Exemples d’Anàlisi Multivariant</em> del Dr. Carles Cuadras disponible en su página web.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
 </section>
 

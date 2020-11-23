@@ -9,11 +9,15 @@ output:
       toc_depth: 3
 editor_options: 
   chunk_output_type: console
+bibliography: AMVRef.bib
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+
+# Presentación 
 
 Este documento contiene ejemplos de análisis multivariante con R.
 
@@ -21,15 +25,17 @@ Los ejemplos estan pensados para ilustrar los capítulos del documento "Notas de
 
 Algunos de los ejemplos se han inspirado en un documento no publicado del Dr. Carles Cuadras nuestro mentor en Análisis Multivariante por lo que desamos hacer agradecimiento explícito.
 
-
 # Análisis de componentes principales
 
-## Ejemplo PCA-1: Búsqueda de factores latentes en datos ecológicos.
+## Ejemplo PCA-1: Búsqueda de factores latentes en datos ecológicos[^1]
 
-- Un estudio ecológico recogió datos de 49 gorriones hembras que fueron recogidos casi moribundos después de un temporal. 
-- Los investigadores midieron 5 magnitudes de los animales ("length","wing","head","humerus","sternum") y anotaron si los animales sobrevivían o no a los pocos días de ser recogidos ("survival").
-- Entre otros objetivos, el estudio perseguía encontrar *factores*, es decir algunas variables latentes, no medibles pero presentes en los datos, que explicaran la supervivencia de los mismos ante tempestades como la registrada.
-- Como veremos, las dos primeras componentes principales resultan ser estos factores.
+[^1]:El ejemplo de los gorriones se ha tomado del documento *Exemples d'Anàlisi Multivariant* del  Dr. Carles Cuadras disponible en su página web.
+
+Un estudio ecológico recogió datos de 49 gorriones hembras que fueron recogidos casi moribundos después de un temporal. 
+Los investigadores midieron 5 magnitudes de los animales ("length","wing","head","humerus","sternum") y anotaron si los animales sobrevivían o no a los pocos días de ser recogidos ("survival").
+Entre otros objetivos, el estudio perseguía encontrar *factores*, es decir algunas variables latentes, no medibles pero presentes en los datos, que explicaran la supervivencia de los mismos ante tempestades como la registrada.
+Como veremos, las dos primeras componentes principales resultan ser estos factores.
+
 ```{r}
 load("datos/gorriones.RData")
 colnames(gorriones) <-c("length","wing","head","humerus","sternum","survival")
@@ -305,7 +311,7 @@ Esto sugiere que el efcto "Batch" puede enmascarar los efectos de los tratamient
 
 En este caso esto será posible, al menos en parte, porque el diseño se encuentra balanceado entre Tratamiento, Tiempo y Batch, por lo que un modelo de Análisis de la Varianza nos permitirá descomponer la variabilidad asociada a cada causa y eliminar la debida al efecto batch.
 
-#### Análisis basado en distancias 
+### Análisis basado en distancias 
 
 Un enfoque alternativo aunque relacionado es realizar un análisis basado en distancias. 
 Podemos hacerlo calculando la matriz de distancias y visualizándola mediante un mapa de colores o usando escalamiento multidimensional que se discute más adelante.
@@ -314,6 +320,7 @@ Podemos hacerlo calculando la matriz de distancias y visualizándola mediante un
 manDist <- dist(t(x))
 heatmap (as.matrix(manDist), col=heat.colors(16))
 ```
+
 ```{r}
 require(MASS)
 sam1<-sammon (manDist, trace=FALSE)
@@ -322,3 +329,209 @@ text(sam1$points, targets$Batch, pos=4)
 ```
  
 Todas las visualizaciones coinciden en mostrar una separación asociada al factor batch A o B.
+
+# Análisis de proximidades
+
+## Breve repaso sobre medidas de similaridad
+
+Supongamos que tenemos $n$ variables  *dicotómicas*, basadas en ausencia (-) o presencia (+) de caracteres cualitativos. Un individuo queda entonces caracterizado por la presencia o la ausencias de los caracteres, y dos individuos seran tano más similares cuanto más parecido sea su perfil de presencias-ausencias.
+
+|   |   |   |   |   |   |
+|---|---    |---    |---    |---       |---    |
+|       | $x_1$ | $x_2$ | $x_3$ | $\cdots$ | $x_n$ |
+| $i$   | $+$   | $-$   | $+$   | $\cdots$ | $+$ |
+
+Podemos determinar a asociación entre dos individuos $i$, $j$ a partir de la tabla de frecuencias
+
+|   |   |   |   |   |
+|---|---|---|---|---|
+|   |   |   |  $i$  |   |
+|   |   | $+$ |   | $-$  |
+|   | $+$  | $a$  |  | $b$  |
+|$j$  |   |   |   |
+|   | $-$  | $c$  |   |  $d$  | 
+
+donde: $n = a + b + c + d$, que contiene:
+
+- el número de caracteres *comunes* a $i$ y a $j$,  $a$, 
+- el número de caracteres *presentes en $i$ pero no en $j$*, $b$, 
+- el número de caracteres *presentes en $j$ pero no en $i$*, $c$,
+- el número de caracteres *no comunes* a $i$ y a $j$,  $d$,
+
+La asociación se mide mediante un *coeficiente de similaridad* $s_{ij}$ que
+verifica, en general:
+
+- $0 \leq s_{ij} \leq 1$, 
+- $s_{ij} = 0$ si $c+b = n$ **(discrepancia total)**
+- $s_{ij} = 1$ si $a+d = n$ **(concordancia total)**
+
+La similaridad $s_{ij}$ da el grado de semejanza entre $i$, $j$ en relación a los $n$ caracteres. Ejemplos de coeficientes de similaridad son
+
+\begin{itemize}
+  \item [*Sokal y Michener*:] {$\frac{a+d}{n}$}
+  \item [*Sokal y Sneath*:] {$\frac{a}{a+2(b+c)}$}
+  \item [*Jaccard*:] {$\frac{a}{a+b+c}$}
+  \item [*Russel y Rao*:]{$\frac{a}{n}$}
+\end{itemize}
+
+## Ejemplo 1: Distancias geográficas[^2]
+
+[^2]: El ejemplo de la visualización de distancias entre ciudades se ha tomado del libro de @Everitt2011 *An introduction to aplied multivariate analysis using R* y del repositorio de github en donde se encuentra el código R de dicho libro: [https://rdrr.io/cran/MVA/](https://rdrr.io/cran/MVA/)
+
+En muchas ocasiones se dispone de datos en forma de una matriz de _distancias_, de _similaridades_ o de _disimilariddes_. En algún sentido, que puede variar de un caso a otro, estas matrices cuantifican el parecido, o la diferencia, o incluso la distancia geográfica por parejas de un grupo de variables. Nuestro objetivo, en estos casos, suele ser intentar recuperar, a partrir de las maytrices anteriores, las coordenadas de los puntos, de forma que podamos visualizarlos mostrando las relaciones entre ellos.
+
+Este ejemplo utiliza las distancias *aéreas*, en millas, entre 10 ciudades de Estados Unidos. A partir de éstas deseamos recuperar las coordenadas de cada dciudad de forma que podamos representarlas en un plano que refleje lo mejor posible las distancias entre ellas. Hemos de tener en cuenta que puesto que se trata de duistancias aéreas, no son distancias euclídeas (los aviones no se desplazan en línea recta) por lo que la recuperación tan ssólo será aproximada.
+
+```{r}
+library(readxl)
+DistSim <- as.data.frame(read_excel("datos/Dist_Sim_Disim.xlsx", sheet = "GeoDistances"))
+rownames(DistSim) <- DistSim[,1]
+DistSim <-as.matrix(DistSim [,-1])
+```
+
+```{r}
+library(magrittr)
+DistSim %>%
+  kableExtra::kbl() %>%
+  kableExtra::kable_paper("hover", full_width = F, font_size = 9)
+```
+
+Nuestro objetivo es lograr una visualización de los datos que represente lo mejor posible las distancias entre éstas, aunque no conozcamos, como en este caso, las coordenadas de cada ciudad. Además, puesto que se trata de distancias aéreas, no será posible recuperar directamente las distancias euclídeas entre las ciudades, por lo que procederemos a realizar un escalamiento multidimensional clásico
+
+Siguiendo a @Everitt2011, capítulo 4, procederemos a:
+
+- Diagonalizar la matriz de distancias.
+- Obtener las coordenadas de cada individuo (ciudad).
+
+$$
+X = V_1\cdot \Lambda_1^{\frac 12} ,
+$$
+donde $V_1$ contiene los vectores propios no nulos de $B$ y 
+$$
+\Lambda_1^{\frac 12}= \mbox{diag}(\lambda_1^{\frac 12}, \lambda_2^{\frac 12},..., \lambda_q^{\frac 12}),
+$$ 
+contiene la raíz cuadrada de los primeros $q$ valores propios no nulos de $B$.
+
+Para realizar un multidimensonal scaling clásico nos basaremos en la instrucción `cmdscale` del paquete `stats`:
+
+```{r}
+airdist <- as.dist(as.matrix(DistSim))
+airline_mds <- cmdscale(airdist, k = 9, eig = TRUE)
+airline_mds$points
+```
+
+Si inspeccionamos los valores propios veremos que algunos son negativos:
+
+```{r}
+lam <- airline_mds$eig
+show(lam)
+```
+
+Esto se explica porque, tal como se ha comentado, las distancias no son euclídeas. Para determinar si podemos prescindir de algunas componentes calculamos, como hacíamos en el análisis de componentes principales, el porcentaje de la suma de los valores propios (en valor absoluto o al cuadrado) que representa cada valor propio individual.
+
+```{r}
+cumsum(abs(lam)) / sum(abs(lam))
+cumsum(lam^2) / sum(lam^2)
+```
+
+El elevado valor del primer término en ambos casos, muestra como, bastará con las dos primeras coordenadas para obtener una buena representación.
+
+```{r}
+lim <- range(airline_mds$points[,1] * (-1)) * 1.2
+plot(airline_mds$points[,1] * (-1), airline_mds$points[,2] * (-1),
+     type = "n", xlab = "Coordinate 1", ylab = "Coordinate 2",
+     xlim = lim, ylim = lim)
+text(airline_mds$points[,1] *(-1), airline_mds$points[,2] * (-1), 
+     labels(airdist), cex = 0.7)
+```
+
+Como puede verse en el gráfico la primera coordenada representa la dirección Este Oeste, y la seguna la Norte-Sur. Las posiciones de los puntos reproducen relativamente bien las posiciones relativas de las ciudades en el mapa.
+
+
+## Ejemplo 2: Similaridades entre partidos políticos[^3]
+
+[^3]:El ejemplo de la relación entre partidos políticos se ha tomado del documento @Cuadras2007, *Exemples d'Anàlisi Multivariant* del  Dr. Carles Cuadras disponible en su página web.
+
+La tabla siguiente contiene una medida del grado de similaridad entre partidos políticos españoles en la primera década del siglo XXI. La similaridad se ha calculado a partir de 11 características sociológicas y económicas (sobre constitución del estado, poder judicial y ejecutivo, financiación autonómica, etc.). Sobre éstas se ha aplicado la similaridad de Jaccard al cuadrado
+
+```{r}
+simPartidos <- as.data.frame(read_excel("datos/Dist_Sim_Disim.xlsx", sheet = "SimilarJaccard-Partidos"))
+rownames(simPartidos) <- simPartidos[,1]
+simPartidos <-as.matrix(simPartidos [,-1])
+```
+
+```{r}
+library(magrittr)
+simPartidos %>%
+  kableExtra::kbl() %>%
+  kableExtra::kable_paper("hover", full_width = F, font_size = 9)
+```
+
+Para trabajar con los datos los convertimos en una matriz simétrica:
+
+```{r}
+makeSymm <- function(m) {
+   m[upper.tri(m)] <- t(m)[upper.tri(m)]
+   return(m)
+}
+distPartidos <- makeSymm(as.matrix(simPartidos))
+show(distPartidos)
+```
+
+En este caso tenemos una matriz de distancias $\Delta=\delta_{ij}$. Siguiendo a @Cuadras2019, cap 8, podemos transformarla en una matriz de similaridad mediante la transformación: $S_{ij} = -\frac 12 \delta_{ij}^2$.
+
+```{r}
+simPartidos <-  S<- -0.5 *distPartidos
+```
+
+Una vez tenemos la matriz de similaridades $S$ la transformaremos en 
+$$
+S^*=s_{ij}^* = s_{ij} - \overline{s}_{i}- 
+ \overline{s}_{j} +  \overline{s},
+$$
+
+Esto puede hacerse multiplicando por la izquierda y poir la derecha por la matriz $H$, es decir: 
+$$
+S*= HSH, \mbox{ donde $H$ es la matriz de centrado de datos: } H = I_n- 1_n 1_n'.
+$$
+
+Aquí:
+
+```{r}
+n = nrow(S)
+ones = rep(1, n)
+H = diag(n) - (1/n) * (ones %*% t(ones))
+Sprime1 <- H %*% S 
+Sprime <- Sprime1 %*% H
+```
+
+A continuación diagonalizamos esta matriz:
+
+```{r}
+diagS <- eigen(Sprime)
+diagS
+```
+
+Las coordenadas principales seran:
+
+```{r}
+U <- diagS$vectors
+Dhalf <- sqrt(diagS$values)
+coords<- U %*% diag(Dhalf)[,1:2]
+```
+
+Y la representación gráfica de los partidos según las dos primeras CP es:
+
+```{r}
+xlim <- range(coords[,1] * (-1)) * 1.2
+ylim <- range(coords[,2] * (-1)) * 1.2
+plot(coords[,1] * (-1), coords[,2] * (-1),
+     type = "n", xlab = "Coordinate 1", ylab = "Coordinate 2",
+     xlim = xlim, ylim = ylim)
+text(coords[,1] * (-1), coords[,2] * (-1), 
+     rownames(simPartidos), cex = 0.7)
+```
+
+Como puede verse surge una interpretación bastante natural, en tanto que el primer eje representa si el partido es (pretendidamente) de izquierdas o de derecha, ientrtas que el segundo eje alinea partidos nacionalistas en la parte superior y partidos de ámbito más estatal en la inferior. Como era de esperar, en el centro no hay nadie.
+
+# Referencias
