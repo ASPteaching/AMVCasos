@@ -483,6 +483,7 @@ show(distPartidos)
 
 En este caso tenemos una matriz de distancias $\Delta=\delta_{ij}$. Siguiendo a @Cuadras2019, cap 8, podemos transformarla en una matriz de similaridad mediante la transformación: $S_{ij} = -\frac 12 \delta_{ij}^2$.
 
+En este caso se nos indica que las distancias ya estan al cuadrado por lo que tan sólo multiplicaremos por $-1/2$:
 ```{r}
 simPartidos <-  S<- -0.5 *distPartidos
 ```
@@ -503,7 +504,7 @@ Aquí:
 ```{r}
 n = nrow(S)
 ones = rep(1, n)
-H = diag(n) - (1/n) * (ones %*% t(ones))
+H = diag(ones) - (1/n) * (ones %*% t(ones))
 Sprime <- H %*% S %*% H
 ```
 

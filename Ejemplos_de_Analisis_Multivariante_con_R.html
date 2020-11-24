@@ -1791,6 +1791,7 @@ ICV
 ## ERC  2.000 1.250 1.600 1.111 0.000 0.667
 ## ICV  1.818 1.111 1.714 0.667 0.667 0.000</code></pre>
 <p>En este caso tenemos una matriz de distancias <span class="math inline">\(\Delta=\delta_{ij}\)</span>. Siguiendo a <span class="citation">Cuadras (2019)</span>, cap 8, podemos transformarla en una matriz de similaridad mediante la transformación: <span class="math inline">\(S_{ij} = -\frac 12 \delta_{ij}^2\)</span>.</p>
+<p>En este caso se nos indica que las distancias ya estan al cuadrado por lo que tan sólo multiplicaremos por <span class="math inline">\(-1/2\)</span>:</p>
 <div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1"></a>simPartidos &lt;-<span class="st">  </span>S&lt;-<span class="st"> </span><span class="fl">-0.5</span> <span class="op">*</span>distPartidos</span></code></pre></div>
 <p>Una vez tenemos la matriz de similaridades <span class="math inline">\(S\)</span> la transformaremos en <span class="math display">\[
 S^*=s_{ij}^* = s_{ij} - \overline{s}_{i}- 
@@ -1802,7 +1803,7 @@ S*= HSH, \mbox{ donde $H$ es la matriz de centrado de datos: } H = I_n- 1_n 1_n&
 <p>Aquí:</p>
 <div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1"></a>n =<span class="st"> </span><span class="kw">nrow</span>(S)</span>
 <span id="cb78-2"><a href="#cb78-2"></a>ones =<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>, n)</span>
-<span id="cb78-3"><a href="#cb78-3"></a>H =<span class="st"> </span><span class="kw">diag</span>(n) <span class="op">-</span><span class="st"> </span>(<span class="dv">1</span><span class="op">/</span>n) <span class="op">*</span><span class="st"> </span>(ones <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(ones))</span>
+<span id="cb78-3"><a href="#cb78-3"></a>H =<span class="st"> </span><span class="kw">diag</span>(ones) <span class="op">-</span><span class="st"> </span>(<span class="dv">1</span><span class="op">/</span>n) <span class="op">*</span><span class="st"> </span>(ones <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(ones))</span>
 <span id="cb78-4"><a href="#cb78-4"></a>Sprime &lt;-<span class="st"> </span>H <span class="op">%*%</span><span class="st"> </span>S <span class="op">%*%</span><span class="st"> </span>H</span></code></pre></div>
 <p>A continuación diagonalizamos esta matriz:</p>
 <div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1"></a>diagS &lt;-<span class="st"> </span><span class="kw">eigen</span>(Sprime)</span>
