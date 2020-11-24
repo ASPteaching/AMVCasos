@@ -453,9 +453,11 @@ Como puede verse en el gráfico la primera coordenada representa la dirección E
 
 [^3]:El ejemplo de la relación entre partidos políticos se ha tomado del documento @Cuadras2007, *Exemples d'Anàlisi Multivariant* del  Dr. Carles Cuadras disponible en su página web.
 
-La tabla siguiente contiene una medida del grado de similaridad entre partidos políticos españoles en la primera década del siglo XXI. La similaridad se ha calculado a partir de 11 características sociológicas y económicas (sobre constitución del estado, poder judicial y ejecutivo, financiación autonómica, etc.). Sobre éstas se ha aplicado la similaridad de Jaccard al cuadrado
+La tabla siguiente contiene una matriz de distancias entre partidos políticos españoles en la primera década del siglo XXI obtenida a partir de 11 características sociológicas y económicas (sobre constitución del estado, poder judicial y ejecutivo, financiación autonómica, etc.) aplicando la similaridad de Jaccard. Las distancias estan elevadas al cuadrado.
+
 
 ```{r}
+require(readxl)
 simPartidos <- as.data.frame(read_excel("datos/Dist_Sim_Disim.xlsx", sheet = "SimilarJaccard-Partidos"))
 rownames(simPartidos) <- simPartidos[,1]
 simPartidos <-as.matrix(simPartidos [,-1])
@@ -502,8 +504,7 @@ Aquí:
 n = nrow(S)
 ones = rep(1, n)
 H = diag(n) - (1/n) * (ones %*% t(ones))
-Sprime1 <- H %*% S 
-Sprime <- Sprime1 %*% H
+Sprime <- H %*% S %*% H
 ```
 
 A continuación diagonalizamos esta matriz:

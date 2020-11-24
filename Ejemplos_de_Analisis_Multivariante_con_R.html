@@ -1601,10 +1601,11 @@ X = V_1\cdot \Lambda_1^{\frac 12} ,
 </div>
 <div id="ejemplo-2-similaridades-entre-partidos-políticos3" class="section level2">
 <h2>Ejemplo 2: Similaridades entre partidos políticos<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></h2>
-<p>La tabla siguiente contiene una medida del grado de similaridad entre partidos políticos españoles en la primera década del siglo XXI. La similaridad se ha calculado a partir de 11 características sociológicas y económicas (sobre constitución del estado, poder judicial y ejecutivo, financiación autonómica, etc.). Sobre éstas se ha aplicado la similaridad de Jaccard al cuadrado</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1"></a>simPartidos &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">read_excel</span>(<span class="st">&quot;datos/Dist_Sim_Disim.xlsx&quot;</span>, <span class="dt">sheet =</span> <span class="st">&quot;SimilarJaccard-Partidos&quot;</span>))</span>
-<span id="cb73-2"><a href="#cb73-2"></a><span class="kw">rownames</span>(simPartidos) &lt;-<span class="st"> </span>simPartidos[,<span class="dv">1</span>]</span>
-<span id="cb73-3"><a href="#cb73-3"></a>simPartidos &lt;-<span class="kw">as.matrix</span>(simPartidos [,<span class="op">-</span><span class="dv">1</span>])</span></code></pre></div>
+<p>La tabla siguiente contiene una matriz de distancias entre partidos políticos españoles en la primera década del siglo XXI obtenida a partir de 11 características sociológicas y económicas (sobre constitución del estado, poder judicial y ejecutivo, financiación autonómica, etc.) aplicando la similaridad de Jaccard. Las distancias estan elevadas al cuadrado.</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1"></a><span class="kw">require</span>(readxl)</span>
+<span id="cb73-2"><a href="#cb73-2"></a>simPartidos &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">read_excel</span>(<span class="st">&quot;datos/Dist_Sim_Disim.xlsx&quot;</span>, <span class="dt">sheet =</span> <span class="st">&quot;SimilarJaccard-Partidos&quot;</span>))</span>
+<span id="cb73-3"><a href="#cb73-3"></a><span class="kw">rownames</span>(simPartidos) &lt;-<span class="st"> </span>simPartidos[,<span class="dv">1</span>]</span>
+<span id="cb73-4"><a href="#cb73-4"></a>simPartidos &lt;-<span class="kw">as.matrix</span>(simPartidos [,<span class="op">-</span><span class="dv">1</span>])</span></code></pre></div>
 <div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1"></a><span class="kw">library</span>(magrittr)</span>
 <span id="cb74-2"><a href="#cb74-2"></a>simPartidos <span class="op">%&gt;%</span></span>
 <span id="cb74-3"><a href="#cb74-3"></a><span class="st">  </span>kableExtra<span class="op">::</span><span class="kw">kbl</span>() <span class="op">%&gt;%</span></span>
@@ -1802,8 +1803,7 @@ S*= HSH, \mbox{ donde $H$ es la matriz de centrado de datos: } H = I_n- 1_n 1_n&
 <div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1"></a>n =<span class="st"> </span><span class="kw">nrow</span>(S)</span>
 <span id="cb78-2"><a href="#cb78-2"></a>ones =<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>, n)</span>
 <span id="cb78-3"><a href="#cb78-3"></a>H =<span class="st"> </span><span class="kw">diag</span>(n) <span class="op">-</span><span class="st"> </span>(<span class="dv">1</span><span class="op">/</span>n) <span class="op">*</span><span class="st"> </span>(ones <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(ones))</span>
-<span id="cb78-4"><a href="#cb78-4"></a>Sprime1 &lt;-<span class="st"> </span>H <span class="op">%*%</span><span class="st"> </span>S </span>
-<span id="cb78-5"><a href="#cb78-5"></a>Sprime &lt;-<span class="st"> </span>Sprime1 <span class="op">%*%</span><span class="st"> </span>H</span></code></pre></div>
+<span id="cb78-4"><a href="#cb78-4"></a>Sprime &lt;-<span class="st"> </span>H <span class="op">%*%</span><span class="st"> </span>S <span class="op">%*%</span><span class="st"> </span>H</span></code></pre></div>
 <p>A continuación diagonalizamos esta matriz:</p>
 <div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1"></a>diagS &lt;-<span class="st"> </span><span class="kw">eigen</span>(Sprime)</span>
 <span id="cb79-2"><a href="#cb79-2"></a>diagS</span></code></pre></div>
