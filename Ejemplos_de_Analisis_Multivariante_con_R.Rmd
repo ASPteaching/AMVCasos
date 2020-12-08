@@ -537,4 +537,98 @@ text(coords[,1] * (-1), coords[,2] * (-1),
 
 Como puede verse surge una interpretación bastante natural, en tanto que el primer eje representa si el partido es (pretendidamente) de izquierdas o de derecha, ientrtas que el segundo eje alinea partidos nacionalistas en la parte superior y partidos de ámbito más estatal en la inferior. Como era de esperar, en el centro no hay nadie.
 
+# Análisis de correspondencias
+
+- El análisis de correspondencias es una técnica que resulta especialmente adecuada para analizar y visualizar datos de tablas de contingencia con datos de frecuencias numéricas.
+
+- Como en el caso del PCA y el MDS este análisis proporciona una representación de datos en dimensión reducida que facilita la interpretación y la comprensión de los datos.
+
+- En este caso, además, es posible una representación simultánea muy intuitiva de los atributos de las filas y las columnas, lo que, en las circunstancias adecuadas, permite visualizar el grado de asociación entre unas y otras.
+
+
+
+## Ejemplo 1: Representación de mutaciones cromosómicos entre poblaciones
+
+Este primer ejemplo es un análisis clásico basado en estudios de genética de poblaciones de los años 70. En primer lugar se presenta la realización del análisis "empaquetado" para después ilustrarl su realización paso a paso.
+
+*@Alonso1975* hace un amplio estudio de la distribución geográfica del polimorfismo cromosómico de _Drosophila subobscura_ utilizando análisis factorial de correspondencias. 
+
+Sobre una tabla de frecuencias de 66 poblaciones y $8 + 3 + 7 + 23 + 11$ ordenaciones de los $5$ cromosomas $A$, $J$, $E$, $U$ y $O$ respectivamente, hace un análisis de correspondencias global, y varios análisis parciales.
+Utilizaremos, como ilustración uno de los análisis parciales, concretamente la que coge $13$ poblaciones y $3$ inversiones del cromosoma $A$. Los datos, se dan en forma de porcentaje en la **Tabla 1**.
+
+```{r, echo=FALSE}
+polimorph <- c("A-ST", "A-1", "A-2")
+populat <- c("HELSINKI","DROBACK","HARIOT","DALKEITH","GRONINGEN","FONTAINEBLEAU", "VIENA","ZURICH","FRUSKA-GORA","LAGRASSE","MONTPELLIER","CARASCO")
+datos <-  matrix(byrow=TRUE, ncol=3, data=c(96.0 , 4.0  , 0.0 ,78.4 , 16.2 , 5.4 ,100.0, 0.0  , 0.0 , 100.0, 0.0  , 0.0 ,80.0 , 16.0 , 4.0 ,88.5 , 7.7  , 3.8 ,56.9 , 35.8 , 7.4 ,67.8 , 24.4 , 7.8 ,36.1 , 55.6 , 8.3 , 72.5 , 17.5 , 10.0, 60.2 , 24.3 , 15.5, 50.0 , 31.8 , 18.2 ))
+rownames(datos)=populat
+colnames(datos)=polimorph
+```
+
+
+**TABLA**.- _Porcentajes de frecuencias de tres inversiones del cromosoma A para 13 poblaciones de Drosophila subobscura_:
+
+```{r}
+kableExtra::kable(datos)
+```
+
+
+<!-- ```{r} -->
+<!-- library(ca) -->
+<!-- datos.ca<- ca(datos) -->
+<!-- show(datos.ca) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- plot(datos.ca) -->
+<!-- ``` -->
+
+```{r}
+library(FactoMineR)
+datos.ca <- CA(datos, graph = FALSE)
+plot.CA(datos.ca)
+```
+
+**_Figura _** - Análisis de correspondencias sobre 13 poblaciones europeas de _**Drosophila subobscura**_, en relación a tres inversiones del cromosoma A. Las inversiones están también representadas; reflejan las incidencia que tienen en cada población.
+
+Observamos que _Heriot_ y _Dalkeith_ quedan representadas en un mismo punto, dada su distribución idéntica. También queda reflejada la similaridad entre _Drobak_ y _Fontainebleau_. La población _Fruska-Gora_  queda apartada del resto, debido a la influencia de la ordenación $A-1$, menos frecuente en las demás poblaciones. Las proporciones de las 3 ordenaciones quedan muy bien reflejadas en la gráfica; se ve que las poblaciones quedan más cercanas de las ordenaciones que se presentan más.
+
+## Ejemplo 2: Análisis de correspondencias de datos de microarrays
+
+El AC se presenta tradicionalmente como una técnica para el análisis de tablas de frecuencias, pero estríctamente hablando, si podemos expresar unos datos cuantitativos como perfiles fila y perfiles columna, tambien se puede aplicar a otros tipos de datos.
+
+Un ejemplo de esto fue la aplicación a principios de este siglo a datos de microarrays por @Fellenberg2001. El interes de esta aplicación reside sobretodo en la posibilidad de visualizar simultaneamente expresión de genes e individuos/condiciones experimentales. 
+
+El ejemplo se lleva a cabo usando el paquete de R/Bioconductor `made4` que es una extensión, para ser usada en datos ómicos, del paquete `ade4`, un programa muy popular en francia para el análisis exploratorio de datos.
+
+El paquete `made4` (@Culhane2005) contiene algunos _datasets_ de ejemplo. Usaremos el subconjunto de datos `data.train` del dataset `khan`. La función `overview` permite una rápida visualización de un dataset dado.
+
+```{r}
+library(made4)
+data("khan")
+names(khan)
+k.data<-khan$train
+k.class<-khan$train.classes
+overview(k.data)
+```
+
+EL paquete contiene la función `ord` que permite realizar distintos métodos de reducción de la dimensión cambiando un argumento. Para análisis de correspondencias es `coa`. Para saber más puede hacerse `help (ord)`.
+
+```{r}
+k.coa<- ord(k.data, type="coa")
+show(k.coa)
+```
+
+La forma más sencilla de ver los resultados producidos por `ord` es utilizar `plot`. `plot (k.ord)` dibujará un gráfico de los valores propios, junto con los gráficos de las variables (genes) y un gráfico de los casos (muestras de microarrays). En este ejemplo, las muestras de microarrays están codificadas por colores utilizando la variable `k.classes` que se guarda como `k.class`.
+
+```{r}
+plot(k.coa, classvec=k.class, genecol="grey3")
+```
+
+- La imagen muestra arriba a la izquierda (A) el  gráfico de los valores propios, lo que permite hacerse una idea de cuantas dimensiones retener.
+- Arriba a la derecha (B) se muestra la proyección de las muestras de microarrays de pacientes coloreadas por tipos de tumores EWS (rojo), BL (azul), NB (verde) o RMS (marrón) 
+- Abajo a la izquierda (C) se muestra la proyección de los genes (círculos grises rellenos). 
+- Finalmente, abajo a la derecha (D) se muestra el biplot con los genes superpuestos con la muestras. 
+
+Las muestras y genes con una fuerte asociado se proyectan en la misma dirección desde el origen. Cuanto mayor sea la distancia desde el origen, más fuerte será la asociación.
+
 # Referencias
