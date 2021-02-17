@@ -9,7 +9,7 @@ output:
       toc: true
       toc_depth: 3
 editor_options: 
-  chunk_output_type: console
+  chunk_output_type: inline
 bibliography: AMVRef.bib
 ---
 
@@ -207,7 +207,7 @@ Tamaño y forma son pues dos componentes interrelacionadas que, entre ambas expl
 
 ## Ejemplo PCA-2: Detección del efecto batch en datos de microarrays.
 
-Muchos datos de alto rendimiento como los microarrays o los de prote\'omica presentan un tipo particular de complicaci\'on t\'ecnica que se conoce como efecto \emph{batch}. Dicho efecto consiste en que muestras producidas en el mismo ``lote'' (mismo día, misma tanda de hibridación, mismo operario, ...) se parecen más entre ellas que muestras producidas en lotes distintos pudiendo llegar a causar confusi\'on en estudios comparativos en los que el efecto batch enmascare el efecto de los tratamientos en estudio.
+Muchos datos de alto rendimiento como los microarrays o los de proteómica presentan un tipo particular de complicación técnica que se conoce como efecto \emph{batch}. Dicho efecto consiste en que muestras producidas en el mismo ``lote'' (mismo día, misma tanda de hibridación, mismo operario, ...) se parecen más entre ellas que muestras producidas en lotes distintos pudiendo llegar a causar confusión en estudios comparativos en los que el efecto batch enmascare el efecto de los tratamientos en estudio.
 
 Si la presencia del efecto batch se conoce o espera \emph{a priori} puede, en principio, ser controlado o cancelado mediante un adecuado diseño experimental, en el que el lote se tratará usualmente como un bloque. En este caso un adecuado balanceo entre bloques y tratamientos puede cancelar el efecto batch. Alternativamente, dicho efecto puede incluirse como un  factor en el modelo de análisis de la varianza, lo que eliminara del análisis la variación atribuible al lote.
 
@@ -296,7 +296,7 @@ plotPCA <- function ( X, labels=NULL, colors=NULL, dataDesc="", scale=FALSE, cex
 ```
 
 Con esta función podemos realizar y visualizar de forma sencilla el PCA de los datos. Obsérvese que realizamos el PCA de los datos traspuestos puesto que los datos de microarrays se presentan traspuestos a la forma habitual, es decir las filas son las variables y las columnas los individuos.
-```
+
 
 ```{r}
 sampleNames <- targets$ShortName
@@ -546,7 +546,6 @@ Como puede verse surge una interpretación bastante natural, en tanto que el pri
 - En este caso, además, es posible una representación simultánea muy intuitiva de los atributos de las filas y las columnas, lo que, en las circunstancias adecuadas, permite visualizar el grado de asociación entre unas y otras.
 
 
-
 ## Ejemplo 1: Representación de mutaciones cromosómicos entre poblaciones
 
 Este primer ejemplo es un análisis clásico basado en estudios de genética de poblaciones de los años 70. En primer lugar se presenta la realización del análisis "empaquetado" para después ilustrarl su realización paso a paso.
@@ -556,7 +555,7 @@ Este primer ejemplo es un análisis clásico basado en estudios de genética de 
 Sobre una tabla de frecuencias de 66 poblaciones y $8 + 3 + 7 + 23 + 11$ ordenaciones de los $5$ cromosomas $A$, $J$, $E$, $U$ y $O$ respectivamente, hace un análisis de correspondencias global, y varios análisis parciales.
 Utilizaremos, como ilustración uno de los análisis parciales, concretamente la que coge $13$ poblaciones y $3$ inversiones del cromosoma $A$. Los datos, se dan en forma de porcentaje en la **Tabla 1**.
 
-```{r, echo=FALSE}
+```{r ejemplo1CA, echo=FALSE}
 polimorph <- c("A-ST", "A-1", "A-2")
 populat <- c("HELSINKI","DROBACK","HARIOT","DALKEITH","GRONINGEN","FONTAINEBLEAU", "VIENA","ZURICH","FRUSKA-GORA","LAGRASSE","MONTPELLIER","CARASCO")
 datos <-  matrix(byrow=TRUE, ncol=3, data=c(96.0 , 4.0  , 0.0 ,78.4 , 16.2 , 5.4 ,100.0, 0.0  , 0.0 , 100.0, 0.0  , 0.0 ,80.0 , 16.0 , 4.0 ,88.5 , 7.7  , 3.8 ,56.9 , 35.8 , 7.4 ,67.8 , 24.4 , 7.8 ,36.1 , 55.6 , 8.3 , 72.5 , 17.5 , 10.0, 60.2 , 24.3 , 15.5, 50.0 , 31.8 , 18.2 ))
@@ -571,16 +570,18 @@ colnames(datos)=polimorph
 kableExtra::kable(datos)
 ```
 
+Obsérvese como un gráfico sencillo puede dar buena idea de qué relaciones entre filas y columnas esperamos encontrar:
 
-<!-- ```{r} -->
-<!-- library(ca) -->
-<!-- datos.ca<- ca(datos) -->
-<!-- show(datos.ca) -->
-<!-- ``` -->
+```{r}
+library("gplots")
+# 1. convert the data as a table
+dt <- as.table(datos)
+# 2. Graph
+balloonplot(t(dt), main ="Polimorfismos en Europa", xlab ="Cromosoma A", ylab="Ciudades",
+            label = FALSE, show.margins = FALSE)
+```
 
-<!-- ```{r} -->
-<!-- plot(datos.ca) -->
-<!-- ``` -->
+Si realizamos el análisis usando la función `CA` del paquete `FactoMineR` obtenemos los siguientes resultados:
 
 ```{r}
 library(FactoMineR)
@@ -588,9 +589,195 @@ datos.ca <- CA(datos, graph = FALSE)
 plot.CA(datos.ca)
 ```
 
-**_Figura _** - Análisis de correspondencias sobre 13 poblaciones europeas de _**Drosophila subobscura**_, en relación a tres inversiones del cromosoma A. Las inversiones están también representadas; reflejan las incidencia que tienen en cada población.
+<!-- **_Figura _** - Análisis de correspondencias sobre 13 poblaciones europeas de _**Drosophila subobscura**_, en relación a tres inversiones del cromosoma A. Las inversiones están también representadas; reflejan las incidencia que tienen en cada población. -->
 
 Observamos que _Heriot_ y _Dalkeith_ quedan representadas en un mismo punto, dada su distribución idéntica. También queda reflejada la similaridad entre _Drobak_ y _Fontainebleau_. La población _Fruska-Gora_  queda apartada del resto, debido a la influencia de la ordenación $A-1$, menos frecuente en las demás poblaciones. Las proporciones de las 3 ordenaciones quedan muy bien reflejadas en la gráfica; se ve que las poblaciones quedan más cercanas de las ordenaciones que se presentan más.
+
+### Realización del análisis paso por paso
+
+Aunque, en la práctica, solemos utilizar librerías de R que "empaquetan" en funciones propias las transformaciones y análisis de los datos, resulta instructivo realizar algún análisis paso a paso, ya sea para tener una mejor comprensión del análisis realizado o, incluso, para saber cuando puede ser preciso buscar alternativas porque se dan condiciones particulares.
+
+En esta sección realizaremos paso a paso el análisis de los datos anteriores comparando los resultados que obtenemos con los proporcionados por el paquete utilizado.
+
+Empezamos transformando los datos en frecuencias relativas y calculando las frecuencias relativas marginales.
+
+```{r}
+tabla.N <- datos
+N <- sum(tabla.N)
+```
+
+El análisis de esta tabla de frecuencias mediante análisis de correspondencias puede plantearse de dos formas:
+
+1- Como un escalado multidimensional de filas y de columnas con la distancia ji-cuadrado.
+2- Como un análisis de componentes principales sobre la matriz Z estandarizada.
+
+#### Como un escalado multidimensional
+
+Calculamos las tablas de frecuencias relativas y marginales:
+
+```{r}
+tabla.F <-   tabla.N/N
+margin.f <- margin.table(tabla.F,1)
+margin.c <- margin.table(tabla.F,2)
+show(round(addmargins(tabla.F),4))
+```
+
+La solución mediante escalado multidimensional pasa por calcular la matriz de distancias jui-cuadrado por filas y/o por columnas y,  sobre esta matriz, realizamos un escalado multidimensional.
+Es decir realizamos dos cálculos separados que _podremos superponer después_
+
+**Análisis de la tabla basado en los perfiles "fila"**
+
+A partir de la tabla de frecuencias relativas podemos calcular la tabla de frecuencias relativas condicionada por filas (haciendo que éstas sumen 1).
+
+```{r}
+Y<- tabla.P <- diag(1/margin.f) %*% tabla.F
+show(round(addmargins(Y),4))
+```
+
+Calculamos la matriz de distancias ji cuadrado entre las filas.
+Obsérvese que para el cálculo de la distancia entre dos perfiles filas aplicamos la fórmula:
+
+\begin{equation}
+D^{2}\left(\mathbf{p}_{u}, \mathbf{p}_{v}\right)=\left(\mathbf{p}_{u}-\mathbf{p}_{v}\right)^{\prime} \mathbf{D}_{c}^{-1}\left(\mathbf{p}_{u}-\mathbf{p}_{v}\right)
+\end{equation}
+
+```{r}
+nf <- nrow(tabla.F)
+D2.chisq.f <- matrix(0,nf,nf)
+for(i in 1:(nf-1))
+  for(j in i:nf)
+    D2.chisq.f[i,j] <-  t(Y[i,]-Y[j,]) %*% diag(1/margin.c) %*% (Y[i,]-Y[j,])
+   D2.chisq.f <- D2.chisq.f + t(D2.chisq.f)
+rownames(D2.chisq.f) <- colnames(D2.chisq.f) <- rownames(tabla.F)
+show(round(D2.chisq.f,6))
+```
+
+Finalmente realizamos escalado multidimensional sobre la matriz de distancias _entre filas_. 
+
+```{r}
+mds.f <- cmdscale(sqrt(D2.chisq.f),eig=TRUE)
+mds.f
+```
+
+El resultado del MDS se puede representar para visualizar la relación entre las filas.
+
+```{r}
+plot(mds.f$points,ty="n",xlab="PC1",ylab="PC2")
+abline(v=0,h=0, col="gray",lty=4)
+text(mds.f$points[,1],mds.f$points[,2],labels=substr(rownames(tabla.N),1,6),cex=0.6)
+```
+
+**Análisis de la tabla basado en los perfiles "columna"**
+```{r}
+Y<- tabla.C <-   tabla.F %*% diag(1/margin.c)
+show(round(addmargins(Y),4))
+```
+
+A continuación calculamos la matriz de distancias ji cuadrado entre las columnas.
+
+```{r}
+nc <- ncol(tabla.F)
+D2.chisq.c <- matrix(0,nc,nc)
+for(i in 1:(nc-1))
+  for(j in i:nc)
+    D2.chisq.c[i,j] <-  t(Y[,i]-Y[,j]) %*% diag(1/margin.f) %*% (Y[,i]-Y[,j])
+   D2.chisq.c <- D2.chisq.c + t(D2.chisq.c)
+rownames(D2.chisq.c) <- colnames(D2.chisq.c) <- colnames(tabla.F)
+show(round(D2.chisq.c,6))
+```
+
+Finalmente realizamos escalado multidimensional sobre la matriz de distancias _entre columnas_. 
+
+```{r}
+mds.c <- cmdscale(sqrt(D2.chisq.c),eig=TRUE)
+mds.c
+```
+
+El resultado del MDS se puede representar para visualizar la relación entre las filas.
+
+```{r}
+plot(mds.c$points,ty="n",xlab="PC1",ylab="PC2")
+abline(v=0,h=0, col="gray",lty=4)
+text(mds.c$points[,1],mds.c$points[,2],labels=substr(colnames(tabla.F),1,6),cex=0.6)
+```
+
+Finalmente observemos que podemos superponer los dos gráficos:
+
+```{r}
+xinf<- min(min(mds.c$points[,1]), min(mds.f$points[,1]))
+xsup <- max(max(mds.c$points[,1]), max(mds.f$points[,1]))
+yinf<- min(min(mds.c$points[,2]), min(mds.f$points[,2]))
+ysup <- max(max(mds.c$points[,2]), max(mds.f$points[,2]))
+xdelta<- (xsup-xinf)/10
+ydelta<- (ysup-yinf)/10
+xLim <- c(xinf-xdelta, xsup+xdelta)
+yLim <- c(yinf-ydelta, ysup+ydelta)
+
+plot(mds.c$points,ty="n",xlab="PC1",ylab="PC2", xlim=xLim, ylim=yLim)
+abline(v=0,h=0, col="gray",lty=4)
+text(mds.f$points[,1],mds.f$points[,2],labels=substr(rownames(tabla.F),1,6),cex=0.6, col="blue")
+text(mds.c$points[,1],mds.c$points[,2],labels=substr(colnames(tabla.F),1,6),cex=0.6, col="red")
+```
+
+#### AC como un ACP sobre la matriz estandarizada
+
+El análisis se realiza sobre la matriz $\mathbf{Z}$:
+
+\begin{equation}
+\mathbf{Z}=\mathbf{D}_{f}^{1 / 2} \mathbf{Y}=\mathbf{D}_{f}^{-1 / 2} \mathbf{F} \mathbf{D}_{c}^{-1 / 2}=\left(\frac{f_{i j}}{\sqrt{f_{i} f_{\cdot j}}}\right)
+\end{equation}
+
+Sin embargo y para evitar que tengamos un valor propio 1, inútil ya que es una solución trivial,
+es mejor estandarizar la matriz de correspondencias y utilizar la matriz
+
+\begin{equation}
+\mathbf{Z}=\mathbf{D}_{f}^{-1 / 2}\left(\mathbf{F}-\mathbf{f} \mathbf{c}^{\prime}\right) \mathbf{D}_{c}^{-1 / 2}
+\end{equation}
+
+
+```{r}
+Dfmh <- diag(1/sqrt(margin.f))
+Dcmh <- diag(1/sqrt(margin.c))
+Z <-  Dfmh %*% (tabla.F -margin.f%*% t(margin.c)) %*% Dcmh
+rownames(Z) <- rownames(tabla.F)
+colnames(Z) <- colnames(tabla.F)
+round(Z,4)
+```
+
+Realizaremos el ACP mediante la descomposición en valores singulares de Z:
+
+```{r}
+Z.svd <- svd(Z)
+Z.svd
+```
+
+De aquí se obtienen las coordenadas principales y estándar:
+
+```{r}
+f.sc <- diag(1/sqrt(margin.f)) %*% Z.svd$u
+c.sc <- diag(1/sqrt(margin.c)) %*% Z.svd$v
+f.pc <- f.sc %*% diag(Z.svd$d)
+c.pc <- c.sc %*% diag(Z.svd$d)
+```
+
+Podemos finalmente representar las distancias con filas y columnas de **Z**
+
+```{r}
+library(MASS)
+# solución simétrica
+eqscplot(f.pc[,1:2],type="n",xlab="PC1",ylab="PC2")
+abline(v=0,h=0, col="gray",lty=4)
+text(f.pc[,1],f.pc[,2],labels=rownames(tabla.F),cex=0.8,font=2,col="blue")
+text(c.pc[,1],c.pc[,2],labels=colnames(tabla.F),cex=0.8,font=2,col= "red")
+title(main="Solución simétrica",line=1)
+#
+# solución asimétrica
+eqscplot(c.sc[,1:2],type="n",xlab="PC1",ylab="PC2")
+abline(v=0,h=0, col="gray",lty=4)
+text(f.pc[,1],f.pc[,2],labels=rownames(tabla.F),cex=0.8,font=2,col="blue")
+text(c.sc[,1],c.sc[,2],labels=colnames(tabla.F),cex=0.8,font=2,col= "red")
+title(main="Solución asimétrica",line=1)
+```
 
 ## Ejemplo 2: Análisis de correspondencias de datos de microarrays
 
@@ -630,5 +817,236 @@ plot(k.coa, classvec=k.class, genecol="grey3")
 - Finalmente, abajo a la derecha (D) se muestra el biplot con los genes superpuestos con la muestras. 
 
 Las muestras y genes con una fuerte asociado se proyectan en la misma dirección desde el origen. Cuanto mayor sea la distancia desde el origen, más fuerte será la asociación.
+
+
+# Análisis de conglomerados ("Cluster Analysis")
+
+El análisis de conglomerados pertenece al conjunto de técnicas conocidas com "análisis no supervisado" porque su objetivo es descubrir grupos en los datos, es decir grupos de individuos (o eventualmente de variables) que pueden considerarse más similares entre ellos que a los individuos de los otros grupos, según el criterio de similaridad que se decida utilizar.
+
+Presentaremos dos ejemplos distintos:
+
+- Un estudio sobre como se agrupan los países europeos por su consumo de carne
+- Un análisis sobre la clasificación de los estados del ciclo celular y los genes que influyen en cada uno de ellos basado en un estudio de expresión génica.
+
+## Agrupación de genes y de muestras en el análisis del ciclo celular
+
+## Clustering y visualización
+
+En este caso se presentan distintos métodos de agrupación (\"clustering\") disponibles en R y Bioconductor. Se utilizará el conjunto de datos <tt>yeast</tt> que puede descargarse desde la página del proyecto \"Yeast Cell Cycle Project\" (Proyecto de estudio del ciclo celular de la levadura) en la dirección:<br>
+[http://genome-www.stanford.edu/cellcycle/data/rawdata/](http://genome-www.stanford.edu/cellcycle/data/rawdata/).
+
+Para descargarlo se tiene que acceder a la dirección mencionada y, desde ella, seleccionar el enlace  \"Tab delimited data\" y descargar el archivo <tt>combined.txt</tt>.
+
+### Pre-procesamiento de los datos
+La agrupación de datos se suele aplicar después del pre-procesamiento y filtrado de los mismos. El conjunto de datos de ejemplo ya ha sido normalizado y filtrado por lo que no nos ocuparemos de este aspecto.
+
+El archivo de datos contiene información de varios experimentos (<tt>factor alfa, cdc15 y cinéticas de decantación</tt>).
+Para simplificar en este ejercicio nos ocuparemos únicamente de los datos denominados \"cdc15\" (\"cell division control protein 15\").
+
+EL primer paso consiste en extraer los valores del grupo <tt>cdc15</tt> del conjunto de datos pre-normalizados y eliminar los genes con valores faltantes:
+
+```{r readData, eval=TRUE}
+workingDir <- getwd()
+dataDir <- file.path(workingDir, "datos")
+d <- read.table(file.path(dataDir, "combined.txt"), sep="\t", header=T)
+names(d)
+cdc15 <- which(substr(names(d),1,6)=="cdc15_")
+dat <- d[,cdc15]
+names(dat)
+rownames(dat) <- d$X
+dat <- na.omit(dat)
+colnames(dat)
+```
+
+Los datos descargados de la web habían sido previamente normalizados. Para comprobarlo podemos realizar un boxplot y comprobar que los datos presentan una distribución similar y centrada en el cero como sería de esperar con valores de expresión relativa normalizados.
+
+```{r drawboxplot}
+boxplot(dat, las=2, cex.axis=0.7)
+```
+
+A continuación seleccionaremos sólo aquellos genes que se encuentran entre los que poseen el 1\% de las desviaciones estándar más altas. Esto es una práctica habitual en estudios de clasificación puesto que se considera que solo aquellos individuos con algo variabilidad resultan relevantes para la construcción o la distinción de grupos.
+
+```{r filterData, eval=TRUE}
+percentage <- c(0.975)
+sds <- apply(dat, MARGIN=1, FUN="sd")
+sel <- (sds>quantile(sds,percentage))
+dat.sel <- dat[sel, ]
+dim(dat.sel)
+```
+
+### Agrupación jerárquica de las muestras
+
+La primera aproximación que suele hacerse para establecer la relación entre entre muestras es la aplicación de algun método de agrupamiento jerárquico. En este caso se realizará un cluster jerárquico basado en distancias euclídeas y enlaces promedio ("average linkage'').
+
+```{r hclust, eval=TRUE}
+distmeth <- c("euclidian")
+Distan <- dist(t(dat.sel), method=distmeth)
+treemeth <- c("average")
+hc <- hclust(Distan, method=treemeth)
+```
+
+Para representar la estructura jerárquica de un agrupamiento se utiliza el dendrograma, un gráfico que tiene forma de árbol invertido, donde los nombres de los genes equivaldrían a las hojas.
+
+```{r plotclust1,fig=T, echo=F, eval=T}
+library(factoextra)
+fviz_dend(hc, cex = 0.5)
+```
+
+Esta no es la única forma de realizar este tipo de agrupación y , en general se recomienda probar con distintos métodos \"razonables\" y ver hasta que punto cambian los resultados que se obtiene.
+
+### Ejercicio
+
+Dibujar un dendrograma utilizando el método de distancias mínimas (\"single linkage\") y el de distancias máximas (\"complete linkage\").
+
+
+\paragraph{Visualización un dendrograma a partir de las correlación entre genes}
+
+A pesar que en los ejemplos anteriores se han utilizado distancias euclídeas, los perfiles de expresión génica acostumbran a agruparse en función de los coeficientes de correlación.
+
+Para ello es necesario calcular la correlación entre los genes y cambiar el formato de la matriz de correlación para pueda contener las distancias. 
+
+```{r}
+cor.pe <- cor(as.matrix(dat.sel), method=c("pearson"))
+cor.pe.rows <- cor(t(as.matrix(dat.sel)), method=c("pearson"))
+cor.sp <- cor(as.matrix(dat.sel), method=c("spearman"))
+dist.pe <- as.dist(1-cor.pe)
+dist.pe.rows <- as.dist(1-cor.pe.rows)
+dist.sp <- as.dist(1-cor.sp)
+hc.cor <- hclust(dist.pe, method=treemeth)
+hc.cor.rows <- hclust(dist.pe.rows, method=treemeth)
+```
+
+
+
+A continuación, el árbol puede dibujarse normalmente.
+
+
+```{r plotclust2, eval=T}
+#par(mfrow=c(2,1))
+fviz_dend(hc.cor, cex = 0.5, main="Agrupacion de genes\n basada en la correlacion de Pearson")
+fviz_dend(hc.cor.rows, cex = 0.5,main="Agrupacion de muestras\n basada en la correlacion de Pearson")
+#par(oldpar)
+```
+
+\paragraph{Ejercicio}
+Repetir el ejercicio anterior cambiando el coeficiente de Pearson por el de Spearman. ?Los resultados son diferentes?
+
+
+### Agrupación de genes por el método de las <tt>k-means</tt>
+Si en lugar de muestras deseamos agrupar por genes es mejor usar métodos no jerárquicos partitivos como <tt>k-means</tt>.
+
+Un inconveniente de l'agrupación por <tt>k-means</tt> es que hace falta escoger un número el número de clusters ($k$) antes de realizar la agrupación.
+
+Por ejemplo para producir un agrupamiento k-means con 5 grupos haremos:
+
+```{r Kmeans1, eval=T}
+k <- c(4)
+km <- kmeans(dat.sel, k, iter.max=1000)
+```
+
+El método de las <tt>k-means</tt> permite estudiar la consistencia de la agrupación a partir del cálculo de las sumas de cuadrados
+dentro de cada grupo (_Within SS_). El promedio de estas sumas de cuadrados para todos los grupos creados (variable  \"withinss\") es una medida
+de la variabilidad  dentro de los grupos, es decir  qué tan parecidos son los genes dentro de los grupos.
+
+```{r withinness, eval=FALSE}
+mean(km$withinss)
+```
+
+Una manera de evaluar las agrupaciones generadas mediante \"k-means\" es ejecutar el mismo análisis varias
+veces -- guardando cada vez el resultado como un nuevo objeto -- y seleccionar aquella agrupación que ofrece
+un menor valor de  \"withinss\".
+
+
+#### Dibujo de una agrupación <tt>k-means</tt>
+
+Los resultados de los métodos divisivos como k-means<tt>k-means</tt> no pueden visualizarse mediante un dendrograma por lo que es preciso recurrir a otras representaciones gráficas.
+
+Podemos, por ejemplo, pintar los miembros de cada grupo con un color y un símbolo distintos.
+
+```{r KmeansAssess, fig=T, echo=F, eval=T}
+cl <- km$cluster
+plot(dat.sel[,1], dat.sel[,2], col=cl)
+points(km$centers, col = 1:4, pch = 8)
+```
+
+
+Una alternativa es utilizar de nuevo el paquete factoextra 
+```{r}
+fviz_cluster(km, data = dat.sel,
+palette = c("#2E9FDF", "#00AFBB", "#E7B800", "#FC4E07"),
+ellipse.type = "euclid", # Concentration ellipse
+star.plot = TRUE, # Add segments from centroids to items
+repel = TRUE, # Avoid label overplotting (slow)
+ggtheme = theme_minimal()
+)
+
+```
+
+Para visualizar un sólo grupo, y sus valores de expresión, seleccionaremos los genes que lo constituyen y a continuación,
+dibujaremos los perfiles de expresión de estos genes utilizando diferentes colores.
+
+```{r plotKMeans,fig=T, echo=F, eval=T}
+set3 <- data.frame(dat.sel, cl)
+cl1 <- dat.sel[which(cl==1),] # Here we have 3 genes
+plotcol <- colorRampPalette(c("Grey", "Black"))(5)
+plot(t(cl1[1,]), type="l", col=plotcol[1])
+lines(t(cl1[2,]), type="l", col=plotcol[3])
+lines(t(cl1[3,]), type="l", col=plotcol[5])
+```
+
+Si hay más de un grupo podemos visualizarlos todos en el mismo gráfico utilizando un peque\~no bucle <tt>for</tt>
+
+```{r fourgroups, eval=TRUE}
+km <- kmeans(dat.sel, 4, iter.max=1000)
+```
+
+```{r fourplots,fig=T, echo=F, eval=T}
+par(mfrow=c(2,2))
+for(i in 1:4) {
+  matplot(t(dat.sel[km$cluster==i,]), type="l",
+  main=paste("cluster:", i), ylab="log expression", xlab="time")
+}
+```
+
+### Anotación de resultados
+
+Una vez que se han identificado algunos grupos de interés, se puede comprobar que genes constituyen de cada uno de los \"clusters\".
+Esto puede hacerse con el paquete de anotaciones para levadura de donde podremos extraer información sobre nombres, descripciones y otras anotaciones en múltiples bases de datos:
+
+```{r yeastAnots1}
+if(!require(org.Sc.sgd.db)){
+ BiocManager::install("org.Sc.sgd.db")
+}
+require("org.Sc.sgd.db")
+anotData <- capture.output(org.Sc.sgd())
+print(anotData[1:15])
+cat ("... output continues until ", length(anotData), " lines.\n")
+```
+
+Podemos utilizar las funciones de anotacion para convertir los identificadores propios a identificadores más generals ("Entrezs") enriqueciéndolos con información sobre dichos genes.
+
+```{r}
+genes<-rownames(dat.sel) 
+columns(org.Sc.sgd.db)
+geneAnots <-select(org.Sc.sgd.db, genes,c("SGD", "ENTREZID", "GENENAME"))
+head(geneAnots)
+
+###################################################
+### code chunk number 15: genesInClusters
+###################################################
+genesInClusters <- cbind(geneAnots, cl)
+kableExtra::kable(genesInClusters[order(genesInClusters$cl),])
+```
+
+## Algunas fuentes con ejemplos adicionales sobre análisis de conglomerados:
+
+[Ejemplos de cluster analysis con R del profesor Gabriel Martos](https://rpubs.com/gabrielmartos/ClusterAnalysis)
+[El paquete cluster.datasets, con los datasets de un clásico sobre análisisd e conglomerados (Hartigan)](https://cran.r-project.org/web/packages/cluster.datasets/cluster.datasets.pdf)
+[Materiales de Thomas Girke, bioinformatico de la UCR, sobre Clustering](http://girke.bioinformatics.ucr.edu/GEN242/pages/mydoc/Rclustering.html)
+
+
+
+
+
 
 # Referencias
