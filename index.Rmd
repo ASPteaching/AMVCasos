@@ -903,6 +903,7 @@ Dibujar un dendrograma utilizando el método de distancias mínimas (\"single li
 
 A pesar que en los ejemplos anteriores se han utilizado distancias euclídeas, los perfiles de expresión génica acostumbran a agruparse en función de los coeficientes de correlación.
 
+<<<<<<< HEAD:index.Rmd
 Para ello es necesario calcular la correlación entre los genes y cambiar el formato de la matriz de correlación para pueda contener las distancias. 
 
 ```{r}
@@ -916,12 +917,9 @@ hc.cor <- hclust(dist.pe, method=treemeth)
 hc.cor.rows <- hclust(dist.pe.rows, method=treemeth)
 ```
 
+Para ello es necesario calcular la correlación entre los genes y cambiar el formato de la matriz de correlación para pueda contener las distancias. A continuación, el árbol puede dibujarse normalmente.
 
-
-A continuación, el árbol puede dibujarse normalmente.
-
-
-```{r plotclust2, eval=T}
+```{r plotclust2,fig=T, echo=F, eval=T}
 #par(mfrow=c(2,1))
 fviz_dend(hc.cor, cex = 0.5, main="Agrupacion de genes\n basada en la correlacion de Pearson")
 fviz_dend(hc.cor.rows, cex = 0.5,main="Agrupacion de muestras\n basada en la correlacion de Pearson")
